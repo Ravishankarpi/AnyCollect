@@ -18,7 +18,7 @@ Future<Uint8List> generateDocument(ModelClass modelClass) async {
             alignment: pw.Alignment.centerRight,
             margin: const pw.EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
             padding: const pw.EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
-            child: pw.Text('Portable Document Format',
+            child: pw.Text('Any Collect',
                 style: pw.Theme.of(context)
                     .defaultTextStyle
                     .copyWith(color: PdfColors.grey)));
