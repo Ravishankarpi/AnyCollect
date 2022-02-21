@@ -10,6 +10,7 @@ import 'package:flutter_dev/model/form_model.dart';
 import 'package:flutter_dev/provider/service.dart';
 import 'package:flutter_dev/screens/json_to_document.dart';
 import 'package:flutter_dev/screens/local_storage_test.dart';
+import 'package:flutter_dev/screens/onboarding.dart';
 import 'package:flutter_dev/utils/constants.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +20,6 @@ import 'provider/service.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:flutter_pdfview/flutter_pdfview.dart';
-
 
 void main() {
   runApp(MyApp());
@@ -63,8 +63,8 @@ class _State extends State<MyStatefulWidget> with ChangeNotifier {
   List<String> _people = <String>['', 'mum', 'dad', 'sister', 'brother'];
 
   var resultsList = new List.filled(3, '');
-    File file;
-    ModelClass modelClass;
+  File file;
+  ModelClass modelClass;
 
   @override
   void initState() {
@@ -85,11 +85,11 @@ class _State extends State<MyStatefulWidget> with ChangeNotifier {
       print("error:" + ex);
     });
   }
-    JsonStringToObjectConverter(JsonString) {
+
+  JsonStringToObjectConverter(JsonString) {
     final body = json.decode(JsonString);
     return body;
   }
-
 
   var isPortrait = false;
 
@@ -107,16 +107,16 @@ class _State extends State<MyStatefulWidget> with ChangeNotifier {
     }
   }
 
-  void getPdf() async{
+  void getPdf() async {
     modelClass = ModelClass.fromJson(JsonStringToObjectConverter(dummyJson));
 
     // generate Json to PDF
     Uint8List uint8list = await generateDocument(modelClass);
     Directory output = await getTemporaryDirectory();
-    file = File(output.path+"/example.pdf");
+    file = File(output.path + "/example.pdf");
     setState(() {
       file.writeAsBytes(uint8list);
-      print("Test 2"+file.path);
+      print("Test 2" + file.path);
     });
   }
 
@@ -129,22 +129,21 @@ class _State extends State<MyStatefulWidget> with ChangeNotifier {
 
   @override
   Widget build(BuildContext context) {
-    return  Center(
-        child: file!=null?
-        Column(
-          children: <Widget>[
-            
-            ElevatedButton(
-              onPressed: (() async {
-              await Share.shareFiles([file.path], subject: "Ravi PDF Test");
-            })),
-          ],
-        )
-        :Container(
-          child: Text("Null"),
-        )
-      );
+    return const OnBoardingScreen();
+    // return  Center(
+    //     child: file!=null?
+    //     Column(
+    //       children: <Widget>[
+
+    //         ElevatedButton(
+    //           onPressed: (() async {
+    //           await Share.shareFiles([file.path], subject: "Ravi PDF Test");
+    //         })),
+    //       ],
+    //     )
+    //     :Container(
+    //       child: Text("Null"),
+    //     )
+    //   );
   }
 }
-
-
