@@ -50,7 +50,9 @@ dependencies:
   flutter_pdfview: ^1.0.0+10
   flutter_full_pdf_viewer: ^1.0.6
   pdf_viewer_plugin: ^1.0.0+2
-  printing: "^5.4.1"
+  printing:  
+
+  universal_html: "^2.0.8"
 
 
   # share image from url

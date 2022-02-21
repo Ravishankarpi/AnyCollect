@@ -17,9 +17,8 @@ import 'package:provider/provider.dart';
 import 'package:flutter_dev/model/json_model.dart';
 import 'package:share_plus/share_plus.dart';
 import 'provider/service.dart';
-import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pw;
-import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:universal_html/html.dart' show AnchorElement;
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 void main() {
   runApp(MyApp());
@@ -112,6 +111,7 @@ class _State extends State<MyStatefulWidget> with ChangeNotifier {
 
     // generate Json to PDF
     Uint8List uint8list = await generateDocument(modelClass);
+
     Directory output = await getTemporaryDirectory();
     file = File(output.path + "/example.pdf");
     setState(() {
