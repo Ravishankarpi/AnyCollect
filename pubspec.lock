@@ -78,6 +78,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.17.1"
+  csv:
+    dependency: "direct main"
+    description:
+      name: csv
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.1"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -85,6 +92,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.4"
+  equatable:
+    dependency: transitive
+    description:
+      name: equatable
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.3"
+  excel:
+    dependency: "direct main"
+    description:
+      name: excel
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0-null-safety-3"
   fake_async:
     dependency: transitive
     description:
@@ -156,6 +177,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  fluttertoast:
+    dependency: "direct main"
+    description:
+      name: fluttertoast
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "8.0.8"
   html:
     dependency: transitive
     description:
