@@ -9,12 +9,11 @@ import 'package:flutter_dev/model/json_model.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:csv/csv.dart';
 
-    // generate Json to PDF
+// generate Json to PDF
 
 Future<Uint8List> generateDocument(ModelClass modelClass) async {
-
   final pw.Document doc = pw.Document();
-  
+
   doc.addPage(pw.MultiPage(
       pageFormat:
           PdfPageFormat.letter.copyWith(marginBottom: 1.5 * PdfPageFormat.cm),
@@ -40,42 +39,47 @@ Future<Uint8List> generateDocument(ModelClass modelClass) async {
                 data: <List<String>>[
                   <String>['Item', 'Qty', 'Price'],
                   for (int i = 0; i < modelClass.data.length; i++)
-                    <String>['${i+1}) ${modelClass.data.elementAt(i).productName}', '${modelClass.data.elementAt(i).quantity}', '${modelClass.data.elementAt(i).price}'],
+                    <String>[
+                      '${i + 1}) ${modelClass.data.elementAt(i).productName}',
+                      '${modelClass.data.elementAt(i).quantity}',
+                      '${modelClass.data.elementAt(i).price}'
+                    ],
                 ]),
-        pw.Paragraph(text: ""),
-        pw.Paragraph(text: "Subtotal: 10"),
+            pw.Paragraph(text: ""),
+            pw.Paragraph(text: "Subtotal: 10"),
             pw.Padding(padding: const pw.EdgeInsets.all(10)),
           ]));
 
   return doc.save();
 }
 
+// generate Json to CSV
 
+Future<void> generateCSV() async {
+  dynamic data = [
+    {"name": "Ravi", "coach": "AnyCollect", "players": "playersplayers"},
+    {"name": "Ravi1", "coach": "AnyCollect", "players": "playersplayers"}
+  ];
 
-    // generate Json to CSV
+  List<List<dynamic>> csvData = [
+    // headers
+    <String>['Name', 'Coach', 'players'],
+    // data
+    ...data.map(
+        (item) => [item["name"], item["coach"], item["players"].toString()]),
+  ];
 
-Future<void> generateCSV()async{
+  String csv = const ListToCsvConverter().convert(csvData);
 
-  dynamic data = [{"name" : "Ravi", "coach" : "AnyCollect", "players" : "playersplayers"},{"name" : "Ravi1", "coach" : "AnyCollect", "players" : "playersplayers"}];
+  final String dir = (await getApplicationDocumentsDirectory()).path;
+  // ignore: sdk_version_constructor_tearoffs
+  final String path = '$dir/AnyCollect-${DateTime.now()}.csv';
 
-    List<List<dynamic>> csvData = [
-      // headers
-      <String>['Name', 'Coach', 'players'],
-      // data
-      ...data.map((item) => [item["name"], item[["coach"]], item["players"].toString()]),
-    ];
+  // create file
+  final File file = File(path);
+  await file.writeAsString(csv);
 
-    String csv = const ListToCsvConverter().convert(csvData);
-
-    final String dir = (await getApplicationDocumentsDirectory()).path;
-    // ignore: sdk_version_constructor_tearoffs
-    final String path = '$dir/AnyCollect-${DateTime.now()}.csv';
-
-    // create file
-    final File file = File(path);
-    await file.writeAsString(csv);
-
-    await Share.shareFiles([path], subject: "Ravi Test");
+  await Share.shareFiles([path], subject: "Ravi Test");
 
 //     Navigator.of(context).push(
 // MaterialPageRoute(
@@ -84,8 +88,8 @@ Future<void> generateCSV()async{
 // },
 // ),
 // );
-
 }
+
 
 // Future<dynamic> generateDoc()async{
 //     //var bytes = File(file).readAsBytesSync();
