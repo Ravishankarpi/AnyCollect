@@ -18,7 +18,7 @@ class _LoginScreenState extends State<SignupScreen> {
           'Email',
           style: rLabelStyle,
         ),
-        SizedBox(height: 10.0),
+        const SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
           decoration: rBoxDecorationStyle,
