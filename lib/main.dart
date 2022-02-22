@@ -10,11 +10,11 @@ import 'package:flutter_dev/model/form_model.dart';
 import 'package:flutter_dev/provider/service.dart';
 import 'package:flutter_dev/screens/json_to_document.dart';
 import 'package:flutter_dev/screens/local_storage_test.dart';
-import 'package:flutter_dev/screens/share_document.dart';
 import 'package:flutter_dev/utils/constants.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_dev/model/json_model.dart';
+import 'package:share_plus/share_plus.dart';
 import 'provider/service.dart';
 import 'package:universal_html/html.dart' show AnchorElement;
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -67,7 +67,7 @@ class _State extends State<MyStatefulWidget> with ChangeNotifier {
 
   @override
   void initState() {
-    //getPdf();
+    getPdf();
     resultsList[0] = 'red';
     resultsList[1] = 'muff';
     resultsList[2] = 'mum';
@@ -112,8 +112,6 @@ class _State extends State<MyStatefulWidget> with ChangeNotifier {
 
   void getPdf() async{
     modelClass = ModelClass.fromJson(JsonStringToObjectConverter(dummyJson));
-    // generate Json to CSV
-    var tesst = await generateCSV();
     // generate Json to PDF
     Uint8List uint8list = await generateDocument(modelClass);
 
@@ -134,25 +132,22 @@ class _State extends State<MyStatefulWidget> with ChangeNotifier {
 
   @override
   Widget build(BuildContext context) {
-
-    return const ShareDocument();
-  //   return  Center(
-  //       child: file!=null?
-  //       Column(
-  //         children: <Widget>[
+    return  Center(
+        child: file!=null?
+        Column(
+          children: <Widget>[
             
-  //           ElevatedButton(
-  //             onPressed: (() async {
-  //             await Share.shareFiles([file.path], subject: "Ravi PDF Test");
-  //           })),
-  //         ],
-  //       )
-  //       :Container(
-  //         child: Text("Null"),
-  //       )
-  //     );
-  // }
-}
+            ElevatedButton(
+              onPressed: (() async {
+              await Share.shareFiles([file.path], subject: "Ravi PDF Test");
+            })),
+          ],
+        )
+        :Container(
+          child: Text("Null"),
+        )
+      );
+  }
 }
 
 
