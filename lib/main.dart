@@ -10,6 +10,7 @@ import 'package:flutter_dev/model/form_model.dart';
 import 'package:flutter_dev/provider/service.dart';
 import 'package:flutter_dev/screens/json_to_document.dart';
 import 'package:flutter_dev/screens/local_storage_test.dart';
+import 'package:flutter_dev/screens/share_document.dart';
 import 'package:flutter_dev/utils/constants.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
@@ -132,22 +133,24 @@ class _State extends State<MyStatefulWidget> with ChangeNotifier {
 
   @override
   Widget build(BuildContext context) {
-    return  Center(
-        child: file!=null?
-        Column(
-          children: <Widget>[
+
+return ShareDocument();}
+  //   return  Center(
+  //       child: file!=null?
+  //       Column(
+  //         children: <Widget>[
             
-            ElevatedButton(
-              onPressed: (() async {
-              await Share.shareFiles([file.path], subject: "Ravi PDF Test");
-            })),
-          ],
-        )
-        :Container(
-          child: Text("Null"),
-        )
-      );
-  }
+  //           ElevatedButton(
+  //             onPressed: (() async {
+  //             await Share.shareFiles([file.path], subject: "Ravi PDF Test");
+  //           })),
+  //         ],
+  //       )
+  //       :Container(
+  //         child: Text("Null"),
+  //       )
+  //     );
+  // }
 }
 
 

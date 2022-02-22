@@ -68,9 +68,8 @@ Future<void> generateCSV()async{
     String csv = const ListToCsvConverter().convert(csvData);
 
     final String dir = (await getApplicationDocumentsDirectory()).path;
-    var currentDateTime = DateTime.now();
     // ignore: sdk_version_constructor_tearoffs
-    final String path = '$dir/AnyCollect-$currentDateTime.csv';
+    final String path = '$dir/AnyCollect-${DateTime.now()}.csv';
 
     // create file
     final File file = File(path);
