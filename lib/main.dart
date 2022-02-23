@@ -68,7 +68,7 @@ class _State extends State<MyStatefulWidget> with ChangeNotifier {
 
   @override
   void initState() {
-    getPdf();
+    //getPdf();
     resultsList[0] = 'red';
     resultsList[1] = 'muff';
     resultsList[2] = 'mum';
@@ -114,6 +114,7 @@ class _State extends State<MyStatefulWidget> with ChangeNotifier {
   void getPdf() async{
     modelClass = ModelClass.fromJson(JsonStringToObjectConverter(dummyJson));
     // generate Json to PDF
+    await generateCSV();
     Uint8List uint8list = await generateDocument(modelClass);
 
     Directory output = await getTemporaryDirectory();
