@@ -67,7 +67,7 @@ class _State extends State<MyStatefulWidget> with ChangeNotifier {
 
   @override
   void initState() {
-    getPdf();
+    //getPdf();
     resultsList[0] = 'red';
     resultsList[1] = 'muff';
     resultsList[2] = 'mum';
@@ -110,7 +110,6 @@ class _State extends State<MyStatefulWidget> with ChangeNotifier {
 
   void getPdf() async {
     modelClass = ModelClass.fromJson(JsonStringToObjectConverter(dummyJson));
-    await generateCSV();
     // generate Json to PDF
     Uint8List uint8list = await generateDocument(modelClass);
 
@@ -131,22 +130,19 @@ class _State extends State<MyStatefulWidget> with ChangeNotifier {
 
   @override
   Widget build(BuildContext context) {
-    return ShareDocument();
+    return Center(
+        child: file != null
+            ? Column(
+                children: <Widget>[
+                  ElevatedButton(onPressed: (() async {
+                    await generateCSV();
+                    // await Share.shareFiles([file.path],
+                    //     subject: "Ravi PDF Test");
+                  })),
+                ],
+              )
+            : Container(
+                child: Text("Null"),
+              ));
   }
-  //   return  Center(
-  //       child: file!=null?
-  //       Column(
-  //         children: <Widget>[
-
-  //           ElevatedButton(
-  //             onPressed: (() async {
-  //             await Share.shareFiles([file.path], subject: "Ravi PDF Test");
-  //           })),
-  //         ],
-  //       )
-  //       :Container(
-  //         child: Text("Null"),
-  //       )
-  //     );
-  // }
 }
