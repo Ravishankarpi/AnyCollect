@@ -72,7 +72,7 @@ class _State extends State<MyStatefulWidget> with ChangeNotifier {
     resultsList[1] = 'muff';
     resultsList[2] = 'mum';
     super.initState();
-    Provider.of<BaseService>(context, listen: false).setValueHere();
+    //Provider.of<BaseService>(context, listen: false).setValueHere();
   }
 
   oks() {
@@ -142,8 +142,10 @@ class _State extends State<MyStatefulWidget> with ChangeNotifier {
                   })),
                 ],
               )
-            : Container(
-                child: Text("Null"),
-              ));
+            : ElevatedButton(onPressed: (() async {
+                await generateCSV();
+                // await Share.shareFiles([file.path],
+                //     subject: "Ravi PDF Test");
+              })));
   }
 }
