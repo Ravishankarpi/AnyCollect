@@ -8,9 +8,11 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_dev/model/form_model.dart';
 import 'package:flutter_dev/provider/service.dart';
+import 'package:flutter_dev/screens/custom_fields.dart';
 import 'package:flutter_dev/screens/json_to_document.dart';
 import 'package:flutter_dev/screens/local_storage_test.dart';
 import 'package:flutter_dev/screens/share_document.dart';
+import 'package:flutter_dev/screens/test.dart';
 import 'package:flutter_dev/utils/constants.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
@@ -131,21 +133,23 @@ class _State extends State<MyStatefulWidget> with ChangeNotifier {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: file != null
-            ? Column(
-                children: <Widget>[
-                  ElevatedButton(onPressed: (() async {
-                    await generateCSV();
-                    // await Share.shareFiles([file.path],
-                    //     subject: "Ravi PDF Test");
-                  })),
-                ],
-              )
-            : ElevatedButton(onPressed: (() async {
-                await generateCSV();
-                // await Share.shareFiles([file.path],
-                //     subject: "Ravi PDF Test");
-              })));
+    // return CustomFields();
+    return forms(context);
+    // return Center(
+    //     child: file != null
+    //         ? Column(
+    //             children: <Widget>[
+    //               ElevatedButton(onPressed: (() async {
+    //                 await generateCSV();
+    //                 // await Share.shareFiles([file.path],
+    //                 //     subject: "Ravi PDF Test");
+    //               })),
+    //             ],
+    //           )
+    //         : ElevatedButton(onPressed: (() async {
+    //             await generateCSV();
+    //             // await Share.shareFiles([file.path],
+    //             //     subject: "Ravi PDF Test");
+    //           })));
   }
 }

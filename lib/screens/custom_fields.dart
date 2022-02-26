@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dev/controls/drop_down.dart';
@@ -80,13 +81,15 @@ class _CustomFieldsState extends State<CustomFields> {
     return body;
   }
 
-  List<Widget> getRandomWidgetArray(AutoGenerate jsonObject) {
+  List<dynamic> getRandomWidgetArray(AutoGenerate jsonObject) {
     // ignore: prefer_typing_uninitialized_variables
+    List<dynamic> returnAllCategoryWidgets = [];
     List<Widget> returnWidgets = [];
     List<String> dropDownVaues = [];
 
-    jsonString.category.forEach((element) {
+    jsonString.category.asMap().forEach((index,element) {
       categoryData = element;
+      returnWidgets = [];
       returnWidgets.add(_buildTitleTF(element.name));
       element.categoryData.categoryValues.forEach((catDataRes) {
         subCategoryData = catDataRes.subCategoryData;
@@ -110,9 +113,41 @@ class _CustomFieldsState extends State<CustomFields> {
           }
         });
       });
+    returnAllCategoryWidgets.add({"categoryId" : index, "categoryWidgets" : returnWidgets});
     });
-    return returnWidgets;
+    return returnAllCategoryWidgets;
   }
+  List<Widget> getWidgets(){
+    List<Widget> renderWidget = [];
+    var test =  getRandomWidgetArray(jsonString);
+    if(test != null)
+    renderWidget.add(SingleChildScrollView(
+      child: Container(
+          decoration: rBoxDecorationStyle,
+        child: Column(
+           children:  test[0]["categoryWidgets"], 
+      )),
+    ));
+    renderWidget.add(SizedBox(height: 10.0),);
+    renderWidget.add(SingleChildScrollView(
+      child: Container(
+          decoration: rBoxDecorationStyle,
+        child: Column(
+           children:  test[0]["categoryWidgets"], 
+      )),
+    ));
+    renderWidget.add(SizedBox(height: 10.0),);
+    renderWidget.add(SingleChildScrollView(
+      child: Container(
+          decoration: rBoxDecorationStyle,
+        child: Column(
+           children:  test[0]["categoryWidgets"], 
+      )),
+    ));
+    return renderWidget;
+    }
+
+
 
   Widget buildDropDown2(title, List<String> list) {
     return Container(
@@ -217,12 +252,13 @@ class _CustomFieldsState extends State<CustomFields> {
             alignment: Alignment.centerLeft,
             decoration: rBoxDecorationStyle,
             height: 60.0,
+            // color: Colors.white,
             child: DropdownButtonHideUnderline(
               child: DropdownButton(
-                isExpanded: true,
+                isExpanded: false,
                 iconSize: 50.0,
                 isDense: false,
-                dropdownColor: Color.fromARGB(100, 149, 149, 149),
+                // dropdownColor: Color.fromARGB(100, 149, 149, 149),
                 style: const TextStyle(color: Colors.white, fontSize: 18),
                 focusColor: Colors.white,
                 value: dropDownValue,
@@ -233,7 +269,7 @@ class _CustomFieldsState extends State<CustomFields> {
                       value: res,
                       child: Text(res,
                           style: const TextStyle(
-                            color: Colors.grey,
+                            color: Colors.black,
                           )));
                 }).toList(),
                 onChanged: (newValue) {
@@ -322,15 +358,15 @@ class _CustomFieldsState extends State<CustomFields> {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      // Color(0xFF73AEF5),
-                      // Color(0xFF61A4F1),
-                      // Color(0xFF478DE0),
-                      // Color(0xFF398AE5),
+                      Color(0xFF73AEF5),
+                      Color(0xFF61A4F1),
+                      Color(0xFF478DE0),
+                      Color(0xFF398AE5),
 
-                      Color(0xDD000000),
-                      Color(0xDD000000),
-                      Color(0xDD000000),
-                      Color(0xDD000000),
+                      // Color(0xDD000000),
+                      // Color(0xDD000000),
+                      // Color(0xDD000000),
+                      // Color(0xDD000000),
                     ],
                     stops: [0.1, 0.4, 0.7, 0.9],
                   ),
@@ -347,7 +383,7 @@ class _CustomFieldsState extends State<CustomFields> {
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: getRandomWidgetArray(jsonString),
+                    children: getWidgets(),
                   ),
                 ),
               )

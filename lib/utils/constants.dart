@@ -1,19 +1,30 @@
 import 'package:flutter/material.dart';
 
 final rHintTextStyle = TextStyle(
-  color: Colors.white54,
+  color: Colors.black,
   fontFamily: 'OpenSans',
 );
 
 final rLabelStyle = TextStyle(
-  color: Colors.white,
+  color: Colors.black,
   fontWeight: FontWeight.bold,
   fontFamily: 'OpenSans',
 );
 
 final rBoxDecorationStyle = BoxDecoration(
-  color: Color.fromARGB(100, 149, 149, 149),
+  color: Colors.white,
   borderRadius: BorderRadius.circular(10.0),
+  boxShadow: [
+    BoxShadow(
+      color: Colors.black12,
+      blurRadius: 6.0,
+      offset: Offset(0, 2),
+    ),
+  ],
+);
+final rBoxDecorationStyles = BoxDecoration(
+  color: Colors.grey,
+  borderRadius: BorderRadius.circular(10),
   boxShadow: [
     BoxShadow(
       color: Colors.black12,
