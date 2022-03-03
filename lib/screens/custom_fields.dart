@@ -4,6 +4,7 @@ import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dev/controls/drop_down.dart';
+import 'package:flutter_dev/model/formJson.dart';
 import 'package:flutter_dev/model/form_model.dart';
 import 'package:flutter_dev/provider/service.dart';
 import 'package:flutter_dev/utils/constants.dart';
@@ -16,6 +17,8 @@ class CustomFields extends StatefulWidget {
 class _CustomFieldsState extends State<CustomFields> {
   final BaseService _bs = BaseService();
   AutoGenerate jsonString = AutoGenerate();
+  AnyCollect anyCollectJsonString = AnyCollect();
+  
   Category categoryData = Category();
   SubCategoryData subCategoryData = SubCategoryData();
   TextTypeValues textTypeValues = TextTypeValues();
@@ -37,6 +40,9 @@ class _CustomFieldsState extends State<CustomFields> {
     // jsonString = _bs.dummyJson();
     jsonString =
         AutoGenerate.fromJson(JsonStringToObjectConverter(jsonObjectString));
+
+        //     anyCollectJsonString =
+        // AnyCollect.fromJson(JsonStringToObjectConverter(formJsonString));
     var testt = "TRestset";
   }
 

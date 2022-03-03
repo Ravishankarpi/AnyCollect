@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dev/model/form_model.dart';
 import 'package:flutter_dev/provider/service.dart';
 import 'package:flutter_dev/screens/custom_fields.dart';
+import 'package:flutter_dev/screens/dynamicForm.dart';
 import 'package:flutter_dev/screens/json_to_document.dart';
 import 'package:flutter_dev/screens/local_storage_test.dart';
 import 'package:flutter_dev/screens/share_document.dart';
@@ -134,7 +135,7 @@ class _State extends State<MyStatefulWidget> with ChangeNotifier {
   @override
   Widget build(BuildContext context) {
     // return CustomFields();
-    return WidgetsForms();
+    // return WidgetsForms();
     // return Center(
     //     child: file != null
     //         ? Column(
@@ -151,5 +152,7 @@ class _State extends State<MyStatefulWidget> with ChangeNotifier {
     //             // await Share.shareFiles([file.path],
     //             //     subject: "Ravi PDF Test");
     //           })));
+
+    return DynamiceForm();
   }
 }
