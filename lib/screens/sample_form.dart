@@ -99,7 +99,7 @@ onChangeUploadButton (XFile imagePicker){
                       SizedBox(height: 20,),
                       buildTextField(Icons.email, queryData,Colors.lightBlue, false, name: "Email"),
                       SizedBox(height: 20,),
-                      buildVerticalSplit(queryData,buildDropDown(Icons.email, "Email", queryData, onChangeDropItem,dropdownMenuItem, dropdownononChangeJS,true, 0), buildDropDown(Icons.email, "Email", queryData, onChangeDropItem,dropdownMenuItem, dropdownononChangeJS,true, 1)),
+                      // buildVerticalSplit(queryData,buildDropDown(Icons.email, "Email", queryData, onChangeDropItem,dropdownMenuItem, dropdownononChangeJS,true, 0), buildDropDown(Icons.email, "Email", queryData, onChangeDropItem,dropdownMenuItem, dropdownononChangeJS,true, 1)),
                       SizedBox(height: 20,),
                       buildVerticalSplit(queryData, buildTextField(Icons.person, queryData,Colors.lightBlue, true,  name: "First Name"), buildTextField(Icons.person, queryData,Colors.lightBlue, true, name: "LastName"),),
 
@@ -112,6 +112,7 @@ onChangeUploadButton (XFile imagePicker){
           ),
      ),
    );
+
   }
 }
 

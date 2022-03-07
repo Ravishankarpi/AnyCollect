@@ -1,3 +1,6 @@
+import 'package:flutter_dev/model/ids.dart';
+import 'package:flutter_dev/model/ids.dart';
+
 class DropdownonChangeModel {
   List<DropDownOnChange> dropDownOnChange;
 
@@ -23,6 +26,8 @@ class DropdownonChangeModel {
 }
 
 class DropDownOnChange {
+  int sectionId;
+  int groupId;
   int fieldId;
   int value;
 
@@ -40,4 +45,32 @@ class DropDownOnChange {
     return data;
   }
 }
+
+
+
+class DropDownOptions {
+  DropDownOptions({
+    this.indexOfJsonId,
+    this.dropDownptions,
+    this.value
+  });
+    IndexOfJsonId indexOfJsonId;
+    List<String> dropDownptions;
+    int value;
+  
+  DropDownOptions.fromJson(Map<String, dynamic> json){
+    indexOfJsonId = IndexOfJsonId.fromJson(json['IndexOfJsonId']);
+    dropDownptions = List.castFrom<dynamic, String>(json['DropDownptions']);
+    value = json['value'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
+    _data['IndexOfJsonId'] = indexOfJsonId.toJson();
+    _data['DropDownptions'] = dropDownptions;
+    _data['value'] = this.value;
+    return _data;
+  }
+}
+
   
