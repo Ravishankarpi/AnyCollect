@@ -33,6 +33,8 @@ SizedBox buildDropDown(
             .groups[indexOfJsonId.groupsIds]
             .groupFields[indexOfJsonId.fieldIds]
             .options);
+
+            
   double dropDownWidth = (queryData.size.width - 100);
   int _value = 0;
     var index = dropDownFieldsOptions.indexWhere((element) => element.indexOfJsonId.fieldIds == indexOfJsonId.fieldIds && element.indexOfJsonId.groupsIds == indexOfJsonId.groupsIds && element.indexOfJsonId.sectionIds == indexOfJsonId.sectionIds && element.indexOfJsonId.optionIds == indexOfJsonId.optionIds);
