@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dev/model/formJson.dart';
 import 'package:flutter_dev/model/form_model.dart';
+import 'package:flutter_dev/model/ids.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -61,4 +63,24 @@ class BaseService extends ChangeNotifier {
     return await http
         .get(Uri.parse('https://jsonplaceholder.typicode.com/albums/1'));
   }
+
+  IndexOfJsonId findIndex(AnyCollect anyCollect, JsonId jsonid) {
+  // ignore: unrelated_type_equality_checks
+  int secId;
+  int grpId;
+  int fieId;
+  int optId;
+  secId = anyCollect.anyCollectForms[0].formData.sections
+      .indexWhere((element) => element.sectionId == jsonid.sectionId);
+  grpId = anyCollect.anyCollectForms[0].formData.sections[secId].groups
+      .indexWhere((element) => element.groupId == jsonid.groupId);
+  fieId = anyCollect
+      .anyCollectForms[0].formData.sections[secId].groups[grpId].groupFields
+      .indexWhere((element) => element.id == jsonid.fieldId);
+  optId = anyCollect.anyCollectForms[0].formData.sections[secId].groups[grpId]
+      .groupFields[fieId].options
+      .indexWhere((element) => element.id == jsonid.value);
+  return new IndexOfJsonId(
+      sectionIds: secId, groupsIds: grpId, fieldIds: fieId, optionIds: optId);
+}
 }

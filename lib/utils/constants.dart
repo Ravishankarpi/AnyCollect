@@ -16,20 +16,22 @@ final rBoxDecorationStyle = BoxDecoration(
   borderRadius: BorderRadius.circular(10.0),
   boxShadow: [
     BoxShadow(
-      color: Colors.black12,
+      color: Color.fromARGB(255, 0, 132, 255),
       blurRadius: 6.0,
+      spreadRadius : 2.0,
       offset: Offset(0, 2),
     ),
   ],
 );
 final rBoxDecorationStyles = BoxDecoration(
-  color: Colors.white,
+  color: Color.fromARGB(255, 237, 245, 251),
   borderRadius: BorderRadius.circular(10),
   boxShadow: [
     BoxShadow(
-      color: Colors.black12,
+      color: Color.fromARGB(255, 0, 132, 255),
       blurRadius: 6.0,
-      offset: Offset(0, 2),
+      spreadRadius : 2.0,
+      offset: Offset(0, 5),
     ),
   ],
 );

@@ -2,7 +2,7 @@
   
   
   
-  SizedBox buildTextField(icon, MediaQueryData queryData, Color fntColor , isDivided, {String name = ""}) {
+  SizedBox buildTextField(icon, MediaQueryData queryData, Color fntColor , isDivided , {String name = "", bool isReadOnly = false}) {
     double dropDownWidth = (queryData.size.width-100);
     int _value = 0;
     if(isDivided){
@@ -19,7 +19,9 @@
     return SizedBox(
       width: dropDownWidth,
       child: TextField(
+        readOnly: isReadOnly,
         decoration: InputDecoration(
+          prefixIconColor: Color.fromARGB(255, 240, 14, 14),
           prefixIcon: Icon(icon),
           labelText: name != "" ? name : null ,
           border: OutlineInputBorder(

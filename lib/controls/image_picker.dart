@@ -23,9 +23,9 @@ SizedBox buildIconButton(icon, String iconName, MediaQueryData queryData, Functi
         children : <Widget>[
           Column(
           // Replace with a Row for horizontal icon + text
-          children: <Widget>[Icon(icon, size: 70,), Text(iconName, style: TextStyle(fontSize: 20))],
+          children: <Widget>[Icon(icon, size: 50, color: Color.fromARGB(255, 132, 131, 133),), Text(iconName, style: TextStyle(fontSize: 12, color: Color.fromARGB(255, 132, 131, 133)))],
         ),
-        Text(uploadedFileName.toLowerCase(), style: TextStyle(color: Colors.black, fontSize: 18 ),),
+        Text(" * "+uploadedFileName.toLowerCase(), style: TextStyle(color: Color.fromARGB(255, 240, 14, 14), fontSize: 12 ),),
         ], 
       ),
     ),
