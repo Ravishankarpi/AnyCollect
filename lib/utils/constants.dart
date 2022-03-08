@@ -19,7 +19,7 @@ final rBoxDecorationStyle = BoxDecoration(
       color: Color.fromARGB(255, 0, 132, 255),
       blurRadius: 6.0,
       spreadRadius : 2.0,
-      offset: Offset(0, 2),
+      offset: Offset(0, 1),
     ),
   ],
 );
@@ -31,7 +31,19 @@ final rBoxDecorationStyles = BoxDecoration(
       color: Color.fromARGB(255, 0, 132, 255),
       blurRadius: 6.0,
       spreadRadius : 2.0,
-      offset: Offset(0, 5),
+      offset: Offset(0, 1),
+    ),
+  ],
+);
+final attachmentBoxDecorationStyles = BoxDecoration(
+  color: Color.fromARGB(255, 237, 245, 251),
+  borderRadius: BorderRadius.circular(5),
+  boxShadow: [
+    BoxShadow(
+      color: Color.fromARGB(255, 0, 132, 255),
+      blurRadius: 6.0,
+      spreadRadius : 2.0,
+      offset: Offset(0, 1),
     ),
   ],
 );
@@ -40,6 +52,8 @@ final dummyJson = "{\"success\":true,\"data\":[{\"id\":161,\"product_name\":\"Ap
 
 final jsonObjectString =
     "{\n \"category\": [\n  {\n   \"name\": \"sopt-20\",\n   \"categoryData\" : {\n      \"categoryValues\" : [\n    {\n     \"name\": \"unAuthorizedItems\",\n     \"subCategoryData\": {\n         \"subCategoryValues\" : [\n             {\"type\": \"dropDown\",\n        \"typeValues\": [\n       {\n           \"name\" : \"Poor\",\n           \"value\" : \"Poor\",\n            \"Description\": \"Unauthorized items made from production materials.   Unauthorized lifting device present.                              Unauthorized or modified blow off nozzles.\"\n       },\n       {\n            \"name\" : \"Average\",\n            \"value\" : \"Average\",\n            \"Description\": \"Unauthorized, uncertified, homemade or modified items are in use.\"\n       },\n       {\n            \"name\" : \"Perfect\",\n            \"value\" : \"Perfect\",\n            \"Description\": \"No unauthorized items found. \"\n       }\n      ]},\n      {\n          \"type\": \"TextBox\",\n          \"typeValues\": \n            {\n                \"name\" : \"Score\",\n                \"placeHolder\" : \"Your Score\",\n                \"mode\" : \"readOnly\",\n                \"textType\" : \"Text\"\n            }\n          \n      },\n      {\n          \"type\": \"TextBox\",\n          \"typeValues\": \n            {\n                \"name\" : \"Comments\",\n                \"placeHolder\" : \"Your Comments\",\n                \"mode\" : \"editable\",\n                \"textType\" : \"Text\"\n            }\n          \n      }\n             ]\n      \n     }\n    },\n    {\n     \"name\": \"toolsFixtureAndEquipment\",\n     \"subCategoryData\": {\n         \"subCategoryValues\" : [\n             {\"type\": \"dropDown\",\n        \"typeValues\": [\n       {\n           \"name\" : \"Poor\",\n           \"value\" : \"Poor\",\n            \"Description\": \"Unauthorized items made from production materials.   Unauthorized lifting device present.                              Unauthorized or modified blow off nozzles.\"\n       },\n       {\n            \"name\" : \"Average\",\n            \"value\" : \"Average\",\n            \"Description\": \"Unauthorized, uncertified, homemade or modified items are in use.\"\n       },\n       {\n            \"name\" : \"Perfect\",\n            \"value\" : \"Perfect\",\n            \"Description\": \"No unauthorized items found. \"\n       }\n      ]},\n      {\n          \"type\": \"TextBox\",\n          \"typeValues\": \n            {\n                \"name\" : \"Score\",\n                \"placeHolder\" : \"Your Score\",\n                \"mode\" : \"readOnly\",\n                \"textType\" : \"Text\"\n            }\n          \n      },\n      {\n          \"type\": \"TextBox\",\n          \"typeValues\": \n            {\n                \"name\" : \"Comments\",\n                \"placeHolder\" : \"Your Comments\",\n                \"mode\" : \"editable\",\n                \"textType\" : \"Text\"\n            }\n          \n      }\n             ]\n      \n     }\n    }\n   ]}\n      \n  },\n  {\n   \"name\": \"setInOrder-25\",\n   \"categoryData\" : {\n      \"categoryValues\" : [\n    {\n     \"name\": \"areaCleaningAndCondition\",\n     \"subCategoryData\": {\n         \"subCategoryValues\" : [\n             {\"type\": \"dropDown\",\n        \"typeValues\": [\n       {\n           \"name\" : \"Poor\",\n           \"value\" : \"Poor\",\n            \"Description\": \"Unauthorized items made from production materials.   Unauthorized lifting device present.                              Unauthorized or modified blow off nozzles.\"\n       },\n       {\n            \"name\" : \"Average\",\n            \"value\" : \"Average\",\n            \"Description\": \"Unauthorized, uncertified, homemade or modified items are in use.\"\n       },\n       {\n            \"name\" : \"Perfect\",\n            \"value\" : \"Perfect\",\n            \"Description\": \"No unauthorized items found. \"\n       }\n      ]},\n      {\n          \"type\": \"TextBox\",\n          \"typeValues\": \n            {\n                \"name\" : \"Score\",\n                \"placeHolder\" : \"Your Score\",\n                \"mode\" : \"readOnly\",\n                \"textType\" : \"Text\"\n            }\n          \n      },\n      {\n          \"type\": \"TextBox\",\n          \"typeValues\": \n            {\n                \"name\" : \"Comments\",\n                \"placeHolder\" : \"Your Comments\",\n                \"mode\" : \"editable\",\n                \"textType\" : \"Text\"\n            }\n          \n      }\n             ]\n      \n     }\n    },\n    {\n     \"name\": \"locationLabelingIndentificationMarketing\",\n     \"subCategoryData\": {\n         \"subCategoryValues\" : [\n             {\"type\": \"dropDown\",\n        \"typeValues\": [\n       {\n           \"name\" : \"Poor\",\n           \"value\" : \"Poor\",\n            \"Description\": \"Unauthorized items made from production materials.   Unauthorized lifting device present.                              Unauthorized or modified blow off nozzles.\"\n       },\n       {\n            \"name\" : \"Average\",\n            \"value\" : \"Average\",\n            \"Description\": \"Unauthorized, uncertified, homemade or modified items are in use.\"\n       },\n       {\n            \"name\" : \"Perfect\",\n            \"value\" : \"Perfect\",\n            \"Description\": \"No unauthorized items found. \"\n       }\n      ]},\n      {\n          \"type\": \"TextBox\",\n          \"typeValues\": \n            {\n                \"name\" : \"Score\",\n                \"placeHolder\" : \"Your Score\",\n                \"mode\" : \"readOnly\",\n                \"textType\" : \"Text\"\n            }\n          \n      },\n      {\n          \"type\": \"TextBox\",\n          \"typeValues\": \n            {\n                \"name\" : \"Comments\",\n                \"placeHolder\" : \"Your Comments\",\n                \"mode\" : \"editable\",\n                \"textType\" : \"Text\"\n            }\n          \n      }\n             ]\n      \n     }\n    }\n   ]}\n      \n  }\n   \n ]\n}";
+
+final String attachmentJsonStrings = "{\"attachments\":[{\"fileId\":1,\"fileName\":\"image1.jpg\",\"base64String\":\"image64{1}\"},{\"fileId\":2,\"fileName\":\"image2.jpg\",\"base64String\":\"image64{2}\"},{\"fileId\":3,\"fileName\":\"image3.jpg\",\"base64String\":\"image64{3}\"}]}";
 
 final dropdownFieldJson = "{\"dropDownOnChange\":[{\"fieldId\":0,\"value\":1},{\"fieldId\":1,\"value\":2},{\"fieldId\":2,\"value\":3}]}";
 

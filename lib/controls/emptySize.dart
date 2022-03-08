@@ -6,3 +6,10 @@ SizedBox buildEmptyWidth(queryData){
        width: queryData.size.width - dropDownWidth
        );
 }
+
+SizedBox buildSizedBox(double hei, double wid){
+  return SizedBox(
+       height: hei,
+       width: wid,
+       );
+}

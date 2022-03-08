@@ -77,10 +77,16 @@ class BaseService extends ChangeNotifier {
   fieId = anyCollect
       .anyCollectForms[0].formData.sections[secId].groups[grpId].groupFields
       .indexWhere((element) => element.id == jsonid.fieldId);
+  // ignore: prefer_null_aware_operators
   optId = anyCollect.anyCollectForms[0].formData.sections[secId].groups[grpId]
+      .groupFields[fieId].options != null ? anyCollect.anyCollectForms[0].formData.sections[secId].groups[grpId]
       .groupFields[fieId].options
-      .indexWhere((element) => element.id == jsonid.value);
-  return new IndexOfJsonId(
+      .indexWhere((element) => element.id == jsonid.value): null;
+  return IndexOfJsonId(
       sectionIds: secId, groupsIds: grpId, fieldIds: fieId, optionIds: optId);
+}
+
+GroupFields getObject(AnyCollect anyCollect, IndexOfJsonId indexOfJsonId){
+  return anyCollect.anyCollectForms[0].formData.sections[indexOfJsonId.sectionIds].groups[indexOfJsonId.groupsIds].groupFields[indexOfJsonId.fieldIds];
 }
 }

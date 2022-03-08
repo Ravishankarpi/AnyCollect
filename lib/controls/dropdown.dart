@@ -26,18 +26,18 @@ SizedBox buildDropDown(
           defaultTargetPlatform == TargetPlatform.android);
 
   IndexOfJsonId indexOfJsonId = findIndex(anyCollect, jsonId);
-  getDropDownOptions(dropDownFieldsOptions,indexOfJsonId, anyCollect
-            .anyCollectForms[0]
-            .formData
-            .sections[indexOfJsonId.sectionIds]
-            .groups[indexOfJsonId.groupsIds]
-            .groupFields[indexOfJsonId.fieldIds]
-            .options);
+  // getDropDownOptions(dropDownFieldsOptions,indexOfJsonId, anyCollect
+  //           .anyCollectForms[0]
+  //           .formData
+  //           .sections[indexOfJsonId.sectionIds]
+  //           .groups[indexOfJsonId.groupsIds]
+  //           .groupFields[indexOfJsonId.fieldIds]
+  //           .options);
 
-            
+
   double dropDownWidth = (queryData.size.width - 100);
   int _value = 0;
-    var index = dropDownFieldsOptions.indexWhere((element) => element.indexOfJsonId.fieldIds == indexOfJsonId.fieldIds && element.indexOfJsonId.groupsIds == indexOfJsonId.groupsIds && element.indexOfJsonId.sectionIds == indexOfJsonId.sectionIds && element.indexOfJsonId.optionIds == indexOfJsonId.optionIds);
+   // var index = dropDownFieldsOptions.indexWhere((element) => element.indexOfJsonId.fieldIds == indexOfJsonId.fieldIds && element.indexOfJsonId.groupsIds == indexOfJsonId.groupsIds && element.indexOfJsonId.sectionIds == indexOfJsonId.sectionIds && element.indexOfJsonId.optionIds == indexOfJsonId.optionIds);
 
   if (isDivided) {
     if (queryData.orientation.index == 0)
@@ -69,8 +69,8 @@ SizedBox buildDropDown(
         isExpanded: true,
         menuMaxHeight: 200, 
         elevation: 8,
-        value:  dropDownFieldsOptions[index].value,
-        items: buildDropDownItem(dropDownFieldsOptions, indexOfJsonId) ?? [],
+        value:  getObject(anyCollect, indexOfJsonId).defaultValue,
+        items: buildDropDownItem(anyCollect, indexOfJsonId) ?? [],
         //items: dropdownMenuItems,
         onChanged: (value) {
           onChangeDropItem(indexOfJsonId, value);
@@ -78,17 +78,18 @@ SizedBox buildDropDown(
   );
 }
 
-List<DropdownMenuItem> buildDropDownItem(List<DropDownOptions> _list, IndexOfJsonId indexOfJsonId) {
-  var index = _list.indexWhere((element) => element.indexOfJsonId.fieldIds == indexOfJsonId.fieldIds && element.indexOfJsonId.groupsIds == indexOfJsonId.groupsIds && element.indexOfJsonId.sectionIds == indexOfJsonId.sectionIds && element.indexOfJsonId.optionIds == indexOfJsonId.optionIds);
-  List<DropdownMenuItem> dropdownMenuItem = [];
-  if(index != -1){
-    _list[index].dropDownptions.asMap().forEach((key, value) {
+List<DropdownMenuItem> buildDropDownItem(AnyCollect anyCollect, IndexOfJsonId indexOfJsonId) {
+List<Options> obtions = getObject(anyCollect, indexOfJsonId).options;
+  List<dynamic> _list = [];
+ List<DropdownMenuItem> dropdownMenuItem = [];
+ 
+    obtions.asMap().forEach((key, value) {
     dropdownMenuItem.add(new DropdownMenuItem(
-      child: Text(value),
-      value: key,
+      child: Text(value.text),
+      value: value.id,
     ));
   });
-  }
+  
   // _list = ["None","Gokul","Ravi","Divya","Jay"];
  
   return dropdownMenuItem;
@@ -112,6 +113,10 @@ IndexOfJsonId findIndex(AnyCollect anyCollect, JsonId jsonid) {
       .indexWhere((element) => element.id == jsonid.value);
   return new IndexOfJsonId(
       sectionIds: secId, groupsIds: grpId, fieldIds: fieId, optionIds: optId);
+}
+
+GroupFields getObject(AnyCollect anyCollect, IndexOfJsonId indexOfJsonId){
+  return anyCollect.anyCollectForms[0].formData.sections[indexOfJsonId.sectionIds].groups[indexOfJsonId.groupsIds].groupFields[indexOfJsonId.fieldIds];
 }
 
 getDropDownOptions(List<DropDownOptions> dropDownFieldsOptions, IndexOfJsonId indexOfJsonId, List<Options> options) {

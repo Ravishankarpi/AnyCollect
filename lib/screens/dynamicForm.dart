@@ -1,13 +1,14 @@
-
- import 'dart:convert';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dev/controls/dropdown.dart';
+import 'package:flutter_dev/controls/emptySize.dart';
 import 'package:flutter_dev/controls/image_picker.dart';
 import 'package:flutter_dev/controls/label.dart';
 import 'package:flutter_dev/controls/textfield.dart';
 import 'package:flutter_dev/controls/verticalSplit.dart';
+import 'package:flutter_dev/model/attachment.dart';
 import 'package:flutter_dev/model/dropdown_model.dart';
 import 'package:flutter_dev/model/formJson.dart';
 import 'package:flutter_dev/model/ids.dart';
@@ -16,111 +17,180 @@ import 'package:flutter_dev/utils/constants.dart';
 import 'package:image_picker/image_picker.dart';
 
 class DynamiceForm extends StatefulWidget {
-   const DynamiceForm ({ Key key }) : super(key: key);
- 
-   @override
-   State<DynamiceForm> createState() => _State();
- }
- 
- class _State extends State<DynamiceForm> {
+  const DynamiceForm({Key key}) : super(key: key);
 
-   AnyCollect anyCollectJsonString = AnyCollect();
-   DropdownonChangeModel dropdownononChangeJS;
-   List<DropdownMenuItem> dropdownMenuItem;
-   List<Widget> returnWidgets = [];
-   List<Widget> returnSection = [];
-   List<dynamic> verticalSplitSection= [];
-   int i;
-   List<Container> testt;
-   List<DropDownOptions> dropDownFieldsOptions = [];
+  @override
+  State<DynamiceForm> createState() => _State();
+}
+
+class _State extends State<DynamiceForm> {
+  AnyCollect anyCollectJsonString = AnyCollect();
+  DropdownonChangeModel dropdownononChangeJS;
+  List<DropdownMenuItem> dropdownMenuItem;
+  List<Widget> returnWidgets = [];
+  List<Widget> returnSection = [];
+  List<dynamic> verticalSplitSection = [];
+  int i;
+  List<Container> testt;
+  List<DropDownOptions> dropDownFieldsOptions = [];
   final BaseService _bs = BaseService();
 
-   @override
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
     anyCollectJsonString =
         AnyCollect.fromJson(JsonStringToObjectConverter(formJsonString));
-        print(anyCollectJsonString);
-        dropdownononChangeJS = DropdownonChangeModel.fromJson(JsonStringToObjectConverter(dropdownFieldJson));
+    print(anyCollectJsonString);
+    dropdownononChangeJS = DropdownonChangeModel.fromJson(
+        JsonStringToObjectConverter(dropdownFieldJson));
   }
-   @override
-   Widget build(BuildContext context) {
-      MediaQueryData queryData;
-      queryData = MediaQuery.of(context);
-      queryData.size.width;
-      queryData.size.height;
-      getRandomWidgetArray(anyCollectJsonString, context);
-      
 
-        return Scaffold( 
-     body: Container(
-       color: Color.fromARGB(248, 239, 250, 255),
-       child: SingleChildScrollView(
-         child: Center(
+  @override
+  Widget build(BuildContext context) {
+    MediaQueryData queryData;
+    queryData = MediaQuery.of(context);
+    queryData.size.width;
+    queryData.size.height;
+    getRandomWidgetArray(anyCollectJsonString, context);
+
+    return Scaffold(
+      body: Container(
+        color: Color.fromARGB(248, 239, 250, 255),
+        child: SingleChildScrollView(
+          child: Center(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(height: 50,),
-                  Container(
-                    width: queryData.size.width - 30,
-                    height: 40,
-                    decoration: rBoxDecorationStyles,
-                    child: buildText(queryData, FontWeight.bold, Colors.lightBlue, 16,"Form Name", alignmentType: "sections"),
-                    padding: EdgeInsets.only(left: 20.0, top: 10),
-                  ),
-                  SizedBox(height: 5,),
-                  Container(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              SizedBox(
+                height: 50,
+              ),
+              Container(
+                width: queryData.size.width - 30,
+                height: 40,
+                decoration: rBoxDecorationStyles,
+                child: buildText(queryData, FontWeight.bold, Colors.lightBlue,
+                    16, "Form Name",
+                    alignmentType: "sections"),
+                padding: EdgeInsets.only(left: 20.0, top: 10),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Container(
                 // decoration: rBoxDecorationStyles,
                 width: queryData.size.width - 30,
                 // width: MediaQuery.of(context).size.width * 0.7,
-                child:  
-                Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: returnSection ?? [],
-                        // buildIconButton(Icons.drive_folder_upload_outlined, "Upload Images", queryData, onChangeUploadButton, "File Name",  ImageSource.gallery),
-                        // buildElevatedButton("Submit", onChangeElevation)
-                      ), 
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: returnSection ?? [],
+                  // buildIconButton(Icons.drive_folder_upload_outlined, "Upload Images", queryData, onChangeUploadButton, "File Name",  ImageSource.gallery),
+                  // buildElevatedButton("Submit", onChangeElevation)
+                ),
               ),
-                ],
-              )
-            ),
-       ),
-     ),
-   );
-   }
+            ],
+          )),
+        ),
+      ),
+    );
+  }
 
-
-    JsonStringToObjectConverter(JsonString) {
+  JsonStringToObjectConverter(JsonString) {
     final body = json.decode(JsonString);
     return body;
   }
 
-  onChangeDropItem (IndexOfJsonId indexOfJsonId, value ){
-    //  i = dropdownononChangeJS.dropDownOnChange.indexWhere((element)=> element.fieldId == fieldId);
-       var index = dropDownFieldsOptions.indexWhere((element) => element.indexOfJsonId.fieldIds == indexOfJsonId.fieldIds && element.indexOfJsonId.groupsIds == indexOfJsonId.groupsIds && element.indexOfJsonId.sectionIds == indexOfJsonId.sectionIds && element.indexOfJsonId.optionIds == indexOfJsonId.optionIds);
-
+  onChangeDropItem(IndexOfJsonId indexOfJsonId, value) {
+    // GroupFields groupFields =
+    //     _bs.getObject(anyCollectJsonString, indexOfJsonId);
     setState(() {
-        dropDownFieldsOptions[index].value = value;
+      anyCollectJsonString
+          .anyCollectForms[0]
+          .formData
+          .sections[indexOfJsonId.sectionIds]
+          .groups[indexOfJsonId.groupsIds]
+          .groupFields[indexOfJsonId.fieldIds]
+          .defaultValue = value;
     });
-    }
-
-    onChangeUploadButton (XFile imagePicker){
-  if(imagePicker != null){
-        final bytes = File(imagePicker.path).readAsBytesSync().lengthInBytes;
-       imagePicker.name;
-    setState(() {
-    });
-    }
   }
 
+  onChangeUploadButton(IndexOfJsonId indexOfJsonId, List<XFile> imagePicker) {
+    int attachmentsLength = 0;
+    int lastfileId = 0;
+    AttachmentFile existingAttachments;
+    String tempAttachments = anyCollectJsonString
+        .anyCollectForms[0]
+        .formData
+        .sections[indexOfJsonId.sectionIds]
+        .groups[indexOfJsonId.groupsIds]
+        .groupFields[indexOfJsonId.fieldIds]
+        .value;
+    if (imagePicker != null &&imagePicker.isNotEmpty && tempAttachments != null &&
+        tempAttachments != "" ) {
+    Attachments attachments;
+      //get Existing Attachments
+      existingAttachments =
+          AttachmentFile.fromJson(jsonDecode(tempAttachments));
+      attachmentsLength = existingAttachments.attachments.length;
+      lastfileId = existingAttachments.attachments[attachmentsLength-1].fileId;
+        imagePicker.forEach((res) {
+          lastfileId =  lastfileId + 1;
+          final bytes = File(res.path).readAsBytesSync();
+          String img64 = base64Encode(bytes);
+          attachments = Attachments(
+              fileId: lastfileId,
+              fileName: res.name,
+              base64String: img64);
+      existingAttachments.attachments.add(attachments);
+        });
+    }
+    else if(imagePicker != null &&imagePicker.isNotEmpty){
+    List<Attachments> attachments = [];
 
-  
- getRandomWidgetArray(AnyCollect anyCollectJsonString, BuildContext context) {
-   MediaQueryData queryData;
-      queryData = MediaQuery.of(context);
-      queryData.size.width;
-      queryData.size.height;
+         imagePicker.forEach((res) {
+          lastfileId =  lastfileId + 1;
+          final bytes = File(res.path).readAsBytesSync();
+          String img64 = base64Encode(bytes);
+          attachments.add(new Attachments(
+              fileId: lastfileId,
+              fileName: res.name,
+              base64String: img64));        });
+      existingAttachments =new AttachmentFile(attachments: attachments) ;
+
+    }
+    existingAttachments != null ? setState(() {
+      anyCollectJsonString
+        .anyCollectForms[0]
+        .formData
+        .sections[indexOfJsonId.sectionIds]
+        .groups[indexOfJsonId.groupsIds]
+        .groupFields[indexOfJsonId.fieldIds]
+        .value = jsonEncode(existingAttachments);
+    }) : "";
+  }
+
+  // update textFields
+  _onUpdate(IndexOfJsonId indexOfJsonId, String value) {
+    setState(() {
+      anyCollectJsonString
+          .anyCollectForms[0]
+          .formData
+          .sections[indexOfJsonId.sectionIds]
+          .groups[indexOfJsonId.groupsIds]
+          .groupFields[indexOfJsonId.fieldIds]
+          .value = value;
+    });
+  }
+
+  initialValue(String editedText) {
+    return TextEditingController(text: editedText);
+  }
+
+  getRandomWidgetArray(AnyCollect anyCollectJsonString, BuildContext context) {
+    MediaQueryData queryData;
+    queryData = MediaQuery.of(context);
+    queryData.size.width;
+    queryData.size.height;
     // ignore: prefer_typing_uninitialized_variables
     List<dynamic> returnAllCategoryWidgets = [];
     List<String> dropDownVaues = [];
@@ -133,100 +203,158 @@ class DynamiceForm extends StatefulWidget {
     List<GroupFields> groupFields;
     List<Fields> sectionFields;
     List<Groups> sectionGroups;
-          returnSection = [];
+    returnSection = [];
     returnWidgets = [];
 
-    
-
-  //Number of forms
-  anyCollectJsonString.anyCollectForms.asMap().forEach((key, formRes) { 
-    formId = formRes.formId;
-    formLabel = formRes.label;
-    // number of sections
-    formRes.formData.sections.asMap().forEach((key, sectionsRes) {
-      //section Name and Id
-      masterSections =  sectionsRes;
-      //section fields
-      sectionFields =  masterSections.fields;
-      // numnber of groups and groups name
-      sectionGroups =  masterSections.groups;
-        returnSection.add(SizedBox(height: 20,)); 
-        returnSection.add( Container(
+    //Number of forms
+    anyCollectJsonString.anyCollectForms.asMap().forEach((key, formRes) {
+      formId = formRes.formId;
+      formLabel = formRes.label;
+      // number of sections
+      formRes.formData.sections.asMap().forEach((key, sectionsRes) {
+        //section Name and Id
+        masterSections = sectionsRes;
+        //section fields
+        sectionFields = masterSections.fields;
+        // numnber of groups and groups name
+        sectionGroups = masterSections.groups;
+        returnSection.add(buildSizedBox(20, 0));
+        returnSection.add(Container(
           decoration: rBoxDecorationStyles,
           width: queryData.size.width - 30,
           child: Column(
-            children: <Widget> [
-                      SizedBox(height: 15,),
-                      getSectionData(masterSections, queryData),
-                      getGroupFields(masterSections, sectionGroups, queryData),
-            
+            children: <Widget>[
+              const SizedBox(
+                height: 15,
+              ),
+              getSectionData(masterSections, queryData),
+              getGroupFields(masterSections, sectionGroups, queryData),
             ],
           ),
         ));
-        
+      });
+      // return returnSection;
     });
-    // return returnSection;
-  });
     // returnAllCategoryWidgets.add({"categoryId" : "index", "categoryWidgets" : returnWidgets});
     // return returnAllCategoryWidgets;
   }
-  
-  
-  Container getGroupFields(Sections masterSections, List<Groups> sectionGroups, MediaQueryData queryData){
-    JsonId jsonId;
+
+  Container getGroupFields(Sections masterSections, List<Groups> sectionGroups,
+      MediaQueryData queryData) {
+    JsonId jsonId, tempJsonId;
+    GroupFields selectedGroupFields;
+    Options option;
     returnWidgets = [];
-    sectionGroups.asMap().forEach((key,Groups groupRes) { 
-        returnWidgets.add(SizedBox(height: 20,));
-        returnWidgets.add( buildText(queryData, FontWeight.normal,Colors.lightBlue,  12,groupRes.groupName.toUpperCase(), alignmentType: "groups"),);
-    groupRes.groupFields.asMap().forEach((key, groupsFieldRes) {
-       if(
-         key == 0 
-    ){
-          jsonId = new JsonId(sectionId: masterSections.sectionId, groupId: groupRes.groupId,fieldId: groupsFieldRes.id, value: groupsFieldRes.options[0].id );
-       verticalSplitSection.add(buildDropDown(dropDownFieldsOptions, Icons.email, "Email", queryData, onChangeDropItem,dropdownMenuItem, dropdownononChangeJS, anyCollectJsonString,true, 0, jsonId));
-    }
-    else if(
-      key == 1
-    )
-    {
-      if(groupsFieldRes.type == "calculated"){
-        groupsFieldRes.actionDetails.actionType;
-        groupsFieldRes.actionDetails.copyFromFieldId;
-        IndexOfJsonId indexOfJsonId = _bs.findIndex(anyCollectJsonString, jsonId);
-        var score;
-        ActionDetails actionDetails;
-        var index = dropDownFieldsOptions.indexWhere((element) => element.indexOfJsonId.fieldIds == indexOfJsonId.fieldIds && element.indexOfJsonId.groupsIds == indexOfJsonId.groupsIds && element.indexOfJsonId.sectionIds == indexOfJsonId.sectionIds && element.indexOfJsonId.optionIds == indexOfJsonId.optionIds);
-        var dropDownValue = dropDownFieldsOptions[index].value;
-
-        score = anyCollectJsonString.anyCollectForms[0].formData.sections[indexOfJsonId.sectionIds].groups[indexOfJsonId.groupsIds].groupFields[indexOfJsonId.fieldIds].options.indexWhere((element) => element.id == dropDownValue +1);
-        score =  anyCollectJsonString.anyCollectForms[0].formData.sections[indexOfJsonId.sectionIds].groups[indexOfJsonId.groupsIds].groupFields[indexOfJsonId.fieldIds].options[score].value;
-        
-        verticalSplitSection.add(buildTextField(Icons.rotate_90_degrees_ccw, queryData,Colors.lightBlue, true, name:score.toString(), isReadOnly: true));
-      }
-      //verticalSplitSection.add(buildTextField(Icons.score, queryData,Colors.lightBlue, true, name:groupsFieldRes.label));
-    } 
-    if(verticalSplitSection.length == 2){
-    returnWidgets.add(SizedBox(height: 20,));
-    returnWidgets.add(buildVerticalSplit(queryData,verticalSplitSection[0],verticalSplitSection[1]));             
-    verticalSplitSection = [];
-    }
-    else if(verticalSplitSection.length == 0){
-      returnWidgets.add(SizedBox(height: 20,));
-      if(groupsFieldRes.type == "textArea")
-    returnWidgets.add(buildTextField(Icons.comment, queryData,Colors.lightBlue, false, name:groupsFieldRes.label));
-       if(groupsFieldRes.id == "attachmentId"){
-         //temp
-         groupsFieldRes.type = "attachment";
-    returnWidgets.add(buildIconButton(Icons.drive_folder_upload_outlined, "Upload Files", queryData, onChangeUploadButton, groupsFieldRes.label,  ImageSource.gallery),
-);
-
-       }
-
-      
-
-    }
+    sectionGroups.asMap().forEach((groupKey, Groups groupRes) {
+      returnWidgets.add(const SizedBox(
+        height: 20,
+      ));
+      returnWidgets.add(
+        buildText(queryData, FontWeight.normal, Colors.lightBlue, 12,
+            groupRes.groupName.toUpperCase(),
+            alignmentType: "groups"),
+      );
+      groupRes.groupFields.asMap().forEach((key, groupsFieldRes) {
+        jsonId = JsonId(
+            sectionId: masterSections.sectionId,
+            groupId: groupRes.groupId,
+            fieldId: groupsFieldRes.id);
+        if (key == 0) {
+          jsonId = JsonId(
+              sectionId: masterSections.sectionId,
+              groupId: groupRes.groupId,
+              fieldId: groupsFieldRes.id,
+              value: groupsFieldRes.options[0].id);
+          verticalSplitSection.add(buildDropDown(
+              dropDownFieldsOptions,
+              Icons.email,
+              "Email",
+              queryData,
+              onChangeDropItem,
+              dropdownMenuItem,
+              dropdownononChangeJS,
+              anyCollectJsonString,
+              true,
+              0,
+              jsonId));
+        } else if (key == 1) {
+          if (groupsFieldRes.type.toLowerCase() == "calculated") {
+            if (groupsFieldRes.actionDetails.actionType.toLowerCase() ==
+                "copy") {
+              tempJsonId = jsonId;
+              tempJsonId.fieldId = groupsFieldRes.actionDetails.copyFromFieldId;
+              IndexOfJsonId tempIndexOfJsonId =
+                  _bs.findIndex(anyCollectJsonString, tempJsonId);
+              selectedGroupFields =
+                  _bs.getObject(anyCollectJsonString, tempIndexOfJsonId);
+              var index = selectedGroupFields.options.indexWhere(
+                  (element) => element.id == selectedGroupFields.defaultValue);
+              option = selectedGroupFields.options[index];
+            }
+            verticalSplitSection.add(buildTextField(
+                _bs,
+                anyCollectJsonString,
+                Icons.rotate_90_degrees_ccw,
+                queryData,
+                Colors.lightBlue,
+                true,
+                jsonId,
+                _onUpdate,
+                true,
+                value: option.value.toString(),
+                name: groupsFieldRes.label,
+                isReadOnly: true));
+          }
+          //verticalSplitSection.add(buildTextField(Icons.score, queryData,Colors.lightBlue, true, name:groupsFieldRes.label));
+        }
+        if (verticalSplitSection.length == 2) {
+          returnWidgets.add(const SizedBox(
+            height: 20,
+          ));
+          returnWidgets.add(buildVerticalSplit(
+              queryData, verticalSplitSection[0], verticalSplitSection[1]));
+          verticalSplitSection = [];
+        } else if (verticalSplitSection.isEmpty) {
+          returnWidgets.add(const SizedBox(
+            height: 20,
+          ));
+          if (groupsFieldRes.type == "textArea") {
+            returnWidgets.add(buildTextField(
+                _bs,
+                anyCollectJsonString,
+                Icons.comment,
+                queryData,
+                Colors.lightBlue,
+                false,
+                jsonId,
+                _onUpdate,
+                false,
+                value: groupsFieldRes.value,
+                name: groupsFieldRes.label));
+          }
+          if (groupsFieldRes.id == "attachmentId") {
+            //temp
+            groupsFieldRes.type = "attachment";
+            int val = (groupKey) % 2;
+            ImageSource img = val == 0 ? ImageSource.camera: ImageSource.gallery ;
+            returnWidgets.add(
+              buildIconButton(
+                  _bs,
+                  anyCollectJsonString,
+                  Icons.drive_folder_upload_outlined,
+                  "Upload Files",
+                  queryData,
+                  onChangeUploadButton,
+                  getAttachments,
+                  groupsFieldRes.label,
+                  // ImageSource.gallery,
+                  img,
+                  jsonId),
+            );
+          }
+        }
+      });
     });
-    });  
     return Container(
       child: Column(
         children: returnWidgets,
@@ -242,7 +370,7 @@ class DynamiceForm extends StatefulWidget {
   //     child: Container(
   //         decoration: rBoxDecorationStyle,
   //       child: Column(
-  //          children:  test[0]["categoryWidgets"], 
+  //          children:  test[0]["categoryWidgets"],
   //     )),
   //   ));
   //   renderWidget.add(SizedBox(height: 10.0),);
@@ -250,7 +378,7 @@ class DynamiceForm extends StatefulWidget {
   //     child: Container(
   //         decoration: rBoxDecorationStyle,
   //       child: Column(
-  //          children:  test[0]["categoryWidgets"], 
+  //          children:  test[0]["categoryWidgets"],
   //     )),
   //   ));
   //   renderWidget.add(SizedBox(height: 10.0),);
@@ -258,21 +386,36 @@ class DynamiceForm extends StatefulWidget {
   //     child: Container(
   //         decoration: rBoxDecorationStyle,
   //       child: Column(
-  //          children:  test[0]["categoryWidgets"], 
+  //          children:  test[0]["categoryWidgets"],
   //     )),
   //   ));
   //   return renderWidget;
   //   }
 
-  SizedBox getSectionData(masterSections, MediaQueryData queryData){
-     return buildText(queryData, FontWeight.bold, Colors.lightBlue, 12,masterSections.sectionName.toString().toUpperCase(), alignmentType: "sections");
+  SizedBox getSectionData(masterSections, MediaQueryData queryData) {
+    return buildText(queryData, FontWeight.bold, Colors.lightBlue, 12,
+        masterSections.sectionName.toString().toUpperCase(),
+        alignmentType: "sections");
   }
- 
- }
 
- 
- 
- 
+  List<Widget> getAttachments(MediaQueryData queryData, String attachments) {
+    List<Widget> attachment = [];
+    if(attachments != null) {
+      AttachmentFile attachmentsFiles = AttachmentFile.fromJson(jsonDecode(attachments));
+      for (var res in attachmentsFiles?.attachments) {
+      attachment.add(Text(
+        res.fileName,
+        style: const TextStyle(fontSize: 12),
+      ));
 
-
-
+      if (queryData.orientation.index == 0) {
+        attachment.add(buildSizedBox(5, 0));
+      } else {
+        attachment.add(buildSizedBox(0, 5));
+      }
+    }
+    }
+    
+    return attachment;
+  }
+}

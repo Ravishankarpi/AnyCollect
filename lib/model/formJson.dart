@@ -212,6 +212,7 @@ class GroupFields {
   String enableRichText;
   String fileFilter;
   String isMulti;
+  String value;
 
   GroupFields(
       {this.label,
@@ -223,7 +224,8 @@ class GroupFields {
       this.actionDetails,
       this.enableRichText,
       this.fileFilter,
-      this.isMulti});
+      this.isMulti,
+      this.value});
 
   GroupFields.fromJson(Map<String, dynamic> json) {
     label = json['label'];
@@ -243,6 +245,7 @@ class GroupFields {
     enableRichText = json['enableRichText'];
     fileFilter = json['fileFilter'];
     isMulti = json['isMulti'];
+    value = null;
   }
 
   Map<String, dynamic> toJson() {
@@ -261,6 +264,7 @@ class GroupFields {
     data['enableRichText'] = this.enableRichText;
     data['fileFilter'] = this.fileFilter;
     data['isMulti'] = this.isMulti;
+    data["value"] = this.value;
     return data;
   }
 }
