@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dev/screens/dynamicForm.dart';
 import 'package:flutter_dev/utils/constants.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -16,7 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
       children: <Widget>[
         Text(
           'Email',
-          style: rLabelStyle,
+          style: rLabelStyles,
         ),
         SizedBox(height: 10.0),
         Container(
@@ -51,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
       children: <Widget>[
         Text(
           'Password',
-          style: rLabelStyle,
+          style: rLabelStyles,
         ),
         SizedBox(height: 10.0),
         Container(
@@ -88,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
         padding: EdgeInsets.only(right: 0.0),
         child: Text(
           'Forgot Password?',
-          style: rLabelStyle,
+          style: rLabelStyles,
         ),
       ),
     );
@@ -114,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           Text(
             'Remember me',
-            style: rLabelStyle,
+            style: rLabelStyles,
           ),
         ],
       ),
@@ -127,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () => print('Login Button Pressed'),
+        onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => DynamiceForm())),
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
@@ -160,7 +161,7 @@ class _LoginScreenState extends State<LoginScreen> {
         SizedBox(height: 20.0),
         Text(
           'Sign in with',
-          style: rLabelStyle,
+          style: rLabelStyles,
         ),
       ],
     );

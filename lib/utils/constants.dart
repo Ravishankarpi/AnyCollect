@@ -10,6 +10,11 @@ final rLabelStyle = TextStyle(
   fontWeight: FontWeight.bold,
   fontFamily: 'OpenSans',
 );
+final rLabelStyles = TextStyle(
+  color: Colors.white,
+  fontWeight: FontWeight.bold,
+  fontFamily: 'OpenSans',
+);
 
 final rBoxDecorationStyle = BoxDecoration(
   color: Colors.white,

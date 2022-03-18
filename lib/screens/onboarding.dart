@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dev/screens/login_screen.dart';
 import 'package:flutter_dev/utils/styles.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -65,7 +66,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   alignment: Alignment.centerRight,
                   // ignore: deprecated_member_use
                   child: FlatButton(
-                    onPressed: () => print('Skip'),
+                    onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginScreen())),
                     child: const Text(
                       'Skip',
                       style: TextStyle(
@@ -220,7 +221,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               width: double.infinity,
               color: Colors.white,
               child: GestureDetector(
-                onTap: () => print('Get started'),
+                onTap: () => {
+                  print(Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginScreen())))
+                },
                 child: const Center(
                   child: Padding(
                     padding: EdgeInsets.only(bottom: 30.0),

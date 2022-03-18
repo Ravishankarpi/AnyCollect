@@ -89,6 +89,9 @@ flutter:
    - assets/logos/facebook.jpg
    - assets/logos/google.jpg
    - assets/doc/excel.xlsx
+   - assets/images/onboarding0.png
+   - assets/images/onboarding1.png
+   - assets/images/onboarding2.png
 
 
   fonts:
