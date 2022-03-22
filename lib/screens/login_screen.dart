@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dev/screens/chooseforms.dart';
 import 'package:flutter_dev/screens/dynamicForm.dart';
 import 'package:flutter_dev/utils/constants.dart';
 
@@ -128,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => DynamiceForm())),
+        onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChooseForms())),
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
@@ -218,7 +219,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return GestureDetector(
       onTap: () => print('Sign Up Button Pressed'),
       child: RichText(
-        text: TextSpan(
+        text: const TextSpan(
           children: [
             TextSpan(
               text: 'Don\'t have an Account? ',

@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_dev/controls/dropdown.dart';
 import 'package:flutter_dev/controls/emptySize.dart';
@@ -17,13 +16,20 @@ import 'package:flutter_dev/utils/constants.dart';
 import 'package:image_picker/image_picker.dart';
 
 class DynamiceForm extends StatefulWidget {
-  const DynamiceForm({Key key}) : super(key: key);
+  AnyCollectForms anyCollectForms;
+  // DynamiceForm(this._anyCollectForms);
+  
+   DynamiceForm({Key key, @required this.anyCollectForms}) : super(key: key);
 
   @override
-  State<DynamiceForm> createState() => _State();
+  // ignore: no_logic_in_create_state
+  State<DynamiceForm> createState() => _DynamicState(anyCollectForms);
 }
 
-class _State extends State<DynamiceForm> {
+class _DynamicState extends State<DynamiceForm> {
+  AnyCollectForms _anyCollectForms;
+  _DynamicState(_anyCollectForms);
+  
   AnyCollect anyCollectJsonString = AnyCollect();
   DropdownonChangeModel dropdownononChangeJS;
   List<DropdownMenuItem> dropdownMenuItem;
@@ -41,6 +47,7 @@ class _State extends State<DynamiceForm> {
     super.initState();
     anyCollectJsonString =
         AnyCollect.fromJson(JsonStringToObjectConverter(formJsonString));
+      print(this._anyCollectForms);
     print(anyCollectJsonString);
     dropdownononChangeJS = DropdownonChangeModel.fromJson(
         JsonStringToObjectConverter(dropdownFieldJson));
@@ -125,48 +132,48 @@ class _State extends State<DynamiceForm> {
         .groups[indexOfJsonId.groupsIds]
         .groupFields[indexOfJsonId.fieldIds]
         .value;
-    if (imagePicker != null &&imagePicker.isNotEmpty && tempAttachments != null &&
-        tempAttachments != "" ) {
-    Attachments attachments;
+    if (imagePicker != null &&
+        imagePicker.isNotEmpty &&
+        tempAttachments != null &&
+        tempAttachments != "") {
+      Attachments attachments;
       //get Existing Attachments
       existingAttachments =
           AttachmentFile.fromJson(jsonDecode(tempAttachments));
       attachmentsLength = existingAttachments.attachments.length;
-      lastfileId = existingAttachments.attachments[attachmentsLength-1].fileId;
-        imagePicker.forEach((res) {
-          lastfileId =  lastfileId + 1;
-          final bytes = File(res.path).readAsBytesSync();
-          String img64 = base64Encode(bytes);
-          attachments = Attachments(
-              fileId: lastfileId,
-              fileName: res.name,
-              base64String: img64);
-      existingAttachments.attachments.add(attachments);
-        });
-    }
-    else if(imagePicker != null &&imagePicker.isNotEmpty){
-    List<Attachments> attachments = [];
+      lastfileId =
+          existingAttachments.attachments[attachmentsLength - 1].fileId;
+      imagePicker.forEach((res) {
+        lastfileId = lastfileId + 1;
+        final bytes = File(res.path).readAsBytesSync();
+        String img64 = base64Encode(bytes);
+        attachments = Attachments(
+            fileId: lastfileId, fileName: res.name, base64String: img64);
+        existingAttachments.attachments.add(attachments);
+      });
+    } else if (imagePicker != null && imagePicker.isNotEmpty) {
+      List<Attachments> attachments = [];
 
-         imagePicker.forEach((res) {
-          lastfileId =  lastfileId + 1;
-          final bytes = File(res.path).readAsBytesSync();
-          String img64 = base64Encode(bytes);
-          attachments.add(new Attachments(
-              fileId: lastfileId,
-              fileName: res.name,
-              base64String: img64));        });
-      existingAttachments =new AttachmentFile(attachments: attachments) ;
-
+      imagePicker.forEach((res) {
+        lastfileId = lastfileId + 1;
+        final bytes = File(res.path).readAsBytesSync();
+        String img64 = base64Encode(bytes);
+        attachments.add(new Attachments(
+            fileId: lastfileId, fileName: res.name, base64String: img64));
+      });
+      existingAttachments = new AttachmentFile(attachments: attachments);
     }
-    existingAttachments != null ? setState(() {
-      anyCollectJsonString
-        .anyCollectForms[0]
-        .formData
-        .sections[indexOfJsonId.sectionIds]
-        .groups[indexOfJsonId.groupsIds]
-        .groupFields[indexOfJsonId.fieldIds]
-        .value = jsonEncode(existingAttachments);
-    }) : "";
+    existingAttachments != null
+        ? setState(() {
+            anyCollectJsonString
+                .anyCollectForms[0]
+                .formData
+                .sections[indexOfJsonId.sectionIds]
+                .groups[indexOfJsonId.groupsIds]
+                .groupFields[indexOfJsonId.fieldIds]
+                .value = jsonEncode(existingAttachments);
+          })
+        : "";
   }
 
   // update textFields
@@ -336,12 +343,13 @@ class _State extends State<DynamiceForm> {
             //temp
             groupsFieldRes.type = "attachment";
             int val = (groupKey) % 2;
-            ImageSource img = val == 0 ? ImageSource.camera: ImageSource.gallery ;
+            ImageSource img =
+                val == 0 ? ImageSource.camera : ImageSource.gallery;
             returnWidgets.add(
               buildIconButton(
                   _bs,
                   anyCollectJsonString,
-                  Icons.drive_folder_upload_outlined,
+                  Icons.attachment_rounded,
                   "Upload Files",
                   queryData,
                   onChangeUploadButton,
@@ -400,22 +408,23 @@ class _State extends State<DynamiceForm> {
 
   List<Widget> getAttachments(MediaQueryData queryData, String attachments) {
     List<Widget> attachment = [];
-    if(attachments != null) {
-      AttachmentFile attachmentsFiles = AttachmentFile.fromJson(jsonDecode(attachments));
+    if (attachments != null) {
+      AttachmentFile attachmentsFiles =
+          AttachmentFile.fromJson(jsonDecode(attachments));
       for (var res in attachmentsFiles?.attachments) {
-      attachment.add(Text(
-        res.fileName,
-        style: const TextStyle(fontSize: 12),
-      ));
+        attachment.add(Text(
+          res.fileName,
+          style: const TextStyle(fontSize: 12),
+        ));
 
-      if (queryData.orientation.index == 0) {
-        attachment.add(buildSizedBox(5, 0));
-      } else {
-        attachment.add(buildSizedBox(0, 5));
+        if (queryData.orientation.index == 0) {
+          attachment.add(buildSizedBox(5, 0));
+        } else {
+          attachment.add(buildSizedBox(0, 5));
+        }
       }
     }
-    }
-    
+
     return attachment;
   }
 }

@@ -40,6 +40,31 @@ final rBoxDecorationStyles = BoxDecoration(
     ),
   ],
 );
+
+final rTileBoxDecorationStyles = BoxDecoration(
+  color: Color.fromARGB(255, 255, 255, 255),
+  borderRadius: BorderRadius.circular(10),
+  boxShadow: [
+    BoxShadow(
+      color: Color.fromARGB(255, 194, 194, 194),
+      blurRadius: 6.0,
+      spreadRadius : 2.0,
+      offset: Offset(0, 1),
+    ),
+  ],
+);
+final rTileTagDecorationStyles = BoxDecoration(
+  color: Color.fromARGB(141, 3, 133, 255),
+  borderRadius: BorderRadius.circular(10),
+  boxShadow: [
+    BoxShadow(
+      color: Color.fromARGB(255, 194, 194, 194),
+      blurRadius: 6.0,
+      spreadRadius : 2.0,
+      offset: Offset(0, 1),
+    ),
+  ],
+);
 final attachmentBoxDecorationStyles = BoxDecoration(
   color: Color.fromARGB(255, 237, 245, 251),
   borderRadius: BorderRadius.circular(5),

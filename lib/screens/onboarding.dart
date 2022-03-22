@@ -50,10 +50,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               end: Alignment.bottomCenter,
               stops: [0.1, 0.4, 0.7, 0.9],
               colors: [
-                Color(0xFF3594DD),
-                Color(0xFF4563DB),
-                Color(0xFF5036D5),
-                Color(0xFF5B16D0),
+                // Color(0xFF3594DD),
+                // Color(0xFF4563DB),
+                // Color(0xFF5036D5),
+                // Color(0xFF5B16D0),
+                Color.fromARGB(255, 198, 230, 255),
+                Color.fromARGB(255, 150, 173, 236),
+                Color.fromARGB(255, 58, 105, 236),
+                Color.fromARGB(255, 40, 93, 240),
               ],
             ),
           ),
@@ -66,7 +70,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   alignment: Alignment.centerRight,
                   // ignore: deprecated_member_use
                   child: FlatButton(
-                    onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginScreen())),
+                    onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => LoginScreen())),
                     child: const Text(
                       'Skip',
                       style: TextStyle(
@@ -222,7 +227,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               color: Colors.white,
               child: GestureDetector(
                 onTap: () => {
-                  print(Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginScreen())))
+                  print(Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => LoginScreen())))
                 },
                 child: const Center(
                   child: Padding(
