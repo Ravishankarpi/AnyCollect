@@ -43,19 +43,33 @@ final rBoxDecorationStyles = BoxDecoration(
 
 final rTileBoxDecorationStyles = BoxDecoration(
   color: Color.fromARGB(255, 255, 255, 255),
-  borderRadius: BorderRadius.circular(3),
+  borderRadius: BorderRadius.circular(1),
   boxShadow: [
     BoxShadow(
-      color: Color.fromARGB(255, 194, 194, 194),
-      blurRadius: 6.0,
-      spreadRadius : 2.0,
-      offset: Offset(0, 1),
+      color: Color.fromARGB(126, 207, 206, 206),
+      blurRadius: 0.1,
+      spreadRadius : 1.0,
+      offset: Offset(0, 2),
     ),
   ],
 );
 final rTileTagDecorationStyles = BoxDecoration(
-  color: Color.fromARGB(141, 3, 133, 255),
+  color: Color(0xFF2c3c84),
   borderRadius: BorderRadius.circular(15),
+  boxShadow: [
+    BoxShadow(
+      color: Color.fromARGB(255, 255, 255, 255),
+      // blurRadius: 6.0,
+      // spreadRadius : 2.0,
+      // offset: Offset(0, 1),
+    ),
+  ],
+);
+
+final rTileStatusTagDecorationStyles = BoxDecoration(
+  // color: Color(0xFF2c3c84),
+  borderRadius: BorderRadius.circular(15),
+  border: Border.all(width: 1.0, color: Color(0xFF2c3c84)),
   boxShadow: [
     BoxShadow(
       color: Color.fromARGB(255, 255, 255, 255),

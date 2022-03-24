@@ -11,6 +11,8 @@ import 'package:flutter_dev/provider/service.dart';
 import 'package:flutter_dev/screens/chooseforms.dart';
 import 'package:flutter_dev/screens/custom_fields.dart';
 import 'package:flutter_dev/screens/dynamicForm.dart';
+import 'package:flutter_dev/screens/formdetails.dart';
+import 'package:flutter_dev/screens/homepage.dart';
 import 'package:flutter_dev/screens/json_to_document.dart';
 import 'package:flutter_dev/screens/local_storage_test.dart';
 import 'package:flutter_dev/screens/login_screen.dart';
@@ -156,6 +158,7 @@ class _State extends State<MyStatefulWidget> with ChangeNotifier {
     //             //     subject: "Ravi PDF Test");
     //           })));
 
-    return const ChooseForms();
+    // return const FormDetials();
+    return HomePages();
   }
 }

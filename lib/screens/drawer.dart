@@ -7,26 +7,38 @@ Widget buildDrawer(bool isDrawer){
       child: ListView(
         children: [
           UserAccountsDrawerHeader(
-            accountName: Text('Oflutter.com'),
-            accountEmail: Text('example@gmail.com'),
+            accountName: Text('anycollect.com'),
+            accountEmail: Text('forms@anycollect.com'),
             currentAccountPicture: CircleAvatar(
+               backgroundColor: Color.fromARGB(22, 0, 0, 0),
               child: ClipOval(
-                child: Image.network(
-                  'https://oflutter.com/wp-content/uploads/2021/02/girl-profile.png',
-                  fit: BoxFit.cover,
-                  width: 90,
-                  height: 90,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Icon(Icons.person, size: 70,),)
+                  // child: Image(image: AssetImage('assets/images/onboarding0.png'),))
                 ),
               ),
-            ),
-            decoration: BoxDecoration(
-              color: Colors.blue,
-              image: DecorationImage(
-                fit: BoxFit.fill,
-                image: NetworkImage('https://oflutter.com/wp-content/uploads/2021/02/profile-bg3.jpg')
-              ),
+             decoration: BoxDecoration(
+              color: Color(0xFF2c3c84),
+              // image: DecorationImage(
+              //   fit: BoxFit.fill,
+              //   image: AssetImage('assets/images/onboarding0.png')
+              //   // NetworkImage('https://oflutter.com/wp-content/uploads/2021/02/profile-bg3.jpg')
+              // ),
             ),
           ),
+          // Container(
+          //   height: 150,
+          //   width: 150,
+          //    decoration: BoxDecoration(
+          //     color: Color.fromARGB(181, 88, 93, 93),
+          //     image: DecorationImage(
+          //       fit: BoxFit.fill,
+          //       image: AssetImage('assets/images/onboarding0.png')
+          //       // NetworkImage('https://oflutter.com/wp-content/uploads/2021/02/profile-bg3.jpg')
+          //     ),
+          //   ),
+          // )
         ],
       ),
     );

@@ -1,11 +1,14 @@
 import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dev/controls/bottom_navigator.dart';
 import 'package:flutter_dev/controls/label.dart';
 import 'package:flutter_dev/controls/nav_drawer.dart';
 import 'package:flutter_dev/model/formJson.dart';
+import 'package:flutter_dev/screens/drawer.dart';
 import 'package:flutter_dev/screens/dynamicForm.dart';
 import 'package:flutter_dev/utils/constants.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ChooseForms extends StatefulWidget {
   const ChooseForms({Key key}) : super(key: key);
@@ -46,7 +49,7 @@ class _ChooseFormsState extends State<ChooseForms> {
 
            tempFormArr.asMap().forEach((key, value) {
             //  if(data.length == 0)
-             data.add(SizedBox(height: 3,));
+             data.add(SizedBox(height: 10,));
              data.add(
                 GestureDetector(
                   onTap: () => {
@@ -68,47 +71,55 @@ class _ChooseFormsState extends State<ChooseForms> {
                                   padding: EdgeInsets.only(
                                       left: 30, right: 10, top: 0, bottom: 0),
                                   child: Text(
-                                    tempFormArr[key].label,
-                                    style: TextStyle(
-                                        fontSize: 25,
+                                    value.label,
+                                    style: GoogleFonts.openSans(textStyle: TextStyle(
+                                        fontSize: 20,
                                         fontWeight: FontWeight.bold,
-                                        color: Color.fromARGB(141, 3, 133, 255)),
+                                        color: Color(0xFF4c4c4c)),)
                                   ),
                                 ),
+                               
                                Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
+                                  // mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
-                                    SizedBox(width: 35,),
+                                    SizedBox(width: 30,),
                                     GestureDetector(
                                       onTap: () => {
-                                        debugPrint("Aduit"),
-                                        debugPrint("Aduit")
+
                                       },
                                       child: Container(
                                         height: 25,
-                                        width: 80,
+                                        width: 70,
                                         // color: Color.fromARGB(255, 0, 119, 255),
                                         alignment: Alignment.center,
                                         //  padding: EdgeInsets.only(left: 5),
                                         child: Text(
-                                          "Internal",
-                                          style: TextStyle(color: Colors.white),
+                                          key == 0 ?"Internal" : "External",
+                                          style: GoogleFonts.openSans(textStyle: TextStyle(
+                                            color: Colors.white,
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold,)
+                                  ),
                                         ),
                                         decoration: rTileTagDecorationStyles,
                                       ),
                                     ),
-                                    SizedBox(width: 25,),
+                                    SizedBox(width: 5,),
                                     GestureDetector(
-                                      onTap: () => {print("Aduit")},
+                                      onTap: () => {},
                                       child: Container(
                                         height: 25,
-                                        width: 80,
+                                        width: 50,
                                         //  padding: EdgeInsets.only(left: 5),
                                         child: Text(
-                                          "Aduit",
-                                          style: TextStyle(color: Colors.white),
+                                          "Audit",
+                                          style: GoogleFonts.openSans(textStyle: const TextStyle(
+                                            color: Colors.white,
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold,)
+                                  ),
                                         ),
                                         alignment: Alignment.center,
                                         decoration: rTileTagDecorationStyles,
@@ -127,19 +138,17 @@ class _ChooseFormsState extends State<ChooseForms> {
              );
            });
 
+// GridView(gridDelegate: "g",
+// children: 
+//   List.generate(tempFormArr.length, (index) {
+//                 return Center(
+//                   child:Text(""),
 
+//                 );
+//               }
+//               ),
+// );
 
-
-
-            //  List.generate(tempFormArr.length, (index) {
-            //     return Center(
-            //       child:
-
-            //     );
-            //   }
-              
-             
-  
   //  data.insert(0, Center(
   //     child: SizedBox(height: 10,)
   //   ));
@@ -160,14 +169,19 @@ class _ChooseFormsState extends State<ChooseForms> {
     queryData = MediaQuery.of(context);
 
     return Scaffold(
-        drawer: NavDrawer(),
-        appBar: AppBar(
-          backgroundColor: Color.fromRGBO(101, 100, 100, 400),
-          title: const Text('AnyCollect'),
-        ),
+        // drawer: buildDrawer(true),
+        backgroundColor: Color.fromRGBO(242,242,243, 5),
+        // // backgroundColor: const Color(0xFF2c3c84),
+        // appBar: AppBar(
+          // backgroundColor: const Color(0xFF2c3c84),
+        //   title: Text('Forms', style: GoogleFonts.openSans(textStyle: TextStyle(
+        //                                     color: Colors.white,
+        //                                 fontSize: 25,
+        //                                 fontWeight: FontWeight.bold,),),
+        // ),),
         body: SingleChildScrollView(
           child: SafeArea(
-            minimum : EdgeInsets.all(8),
+            minimum : EdgeInsets.all(10),
             child: Container(
               color: Colors.transparent,
               // color: const Color.fromARGB(255, 255, 255, 255),
@@ -183,22 +197,10 @@ class _ChooseFormsState extends State<ChooseForms> {
             ),
           ),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          onTap: (value) => {
-            onPressBottonNavication(value),
-          },
-        elevation : 10,
-        iconSize : 40,
-        unselectedItemColor : Color.fromARGB(223, 100, 100, 100),
-        currentIndex : _page,
-          items : [new BottomNavigationBarItem(label: "Form Details",
-            icon: Icon(Icons.add_comment, color: this._page == 0 ? Color.fromARGB(141, 3, 133, 255) : Color.fromARGB(200, 200, 200, 200) , )
-          ),new BottomNavigationBarItem(label: "Home",
-            icon: Icon(Icons.home, color: this._page == 1 ? Color.fromARGB(141, 3, 133, 255) : Color.fromARGB(200, 200, 200, 200) , )
-          ),new BottomNavigationBarItem(label: "Account",
-            icon: Icon(Icons.login, color: this._page == 2 ? Color.fromARGB(141, 3, 133, 255) : Color.fromARGB(200, 200, 200, 200) , )
-          )]
-        ),
+        
+        // bottomNavigationBar:  BottomNavigator(Index: 1),
+         
+        
         );
   }
 }
