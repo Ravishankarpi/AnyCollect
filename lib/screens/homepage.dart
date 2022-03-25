@@ -71,22 +71,23 @@ class _HomePageState extends State<HomePages> {
     // int _string = 1;
 
     return Scaffold(
-      drawer: buildDrawer(true),
+      // drawer: buildDrawer(true),
       backgroundColor: Color.fromRGBO(242, 242, 243, 5),
       // backgroundColor: const Color(0xFF2c3c84),
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF2c3c84),
-        title: Text(
-          Index == 0 ? "6's Score Card" : "Forms",
-          style: GoogleFonts.openSans(
-            textStyle: TextStyle(
-              color: Colors.white,
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: const Color(0xFF2c3c84),
+      //   title: Text(
+      //     Index == 0 ? "6's Score Card" : "Forms",
+      //     style: GoogleFonts.openSans(
+      //       textStyle: TextStyle(
+      //         color: Colors.white,
+      //         fontSize: 25,
+      //         fontWeight: FontWeight.bold,
+      //       ),
+      //     ),
+      //   ),
+      // ),
+      
       body: changeScreen(Index, anyCollectForms),
       bottomNavigationBar: BottomNavigator(
           callback: (val) => {

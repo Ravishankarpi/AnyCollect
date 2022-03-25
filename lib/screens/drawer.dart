@@ -18,7 +18,7 @@ Widget buildDrawer(bool isDrawer){
                   // child: Image(image: AssetImage('assets/images/onboarding0.png'),))
                 ),
               ),
-             decoration: BoxDecoration(
+             decoration: const BoxDecoration(
               color: Color(0xFF2c3c84),
               // image: DecorationImage(
               //   fit: BoxFit.fill,

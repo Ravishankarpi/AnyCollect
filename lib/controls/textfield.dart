@@ -22,7 +22,7 @@ SizedBox buildTextField(
     String name = "",
     bool isReadOnly = false}) {
   double dropDownWidth = (queryData.size.width - 100);
-  int _value = 0;
+  // int _value = 0;
   int index;
   IndexOfJsonId indexOfJsonId;
   GroupFields groupFields;
@@ -37,8 +37,9 @@ SizedBox buildTextField(
   return SizedBox(
     width: dropDownWidth,
     child: isControlRequired
-    // autoFilledFields
-        ? TextField(
+    // Score
+        ?
+         TextField(
             controller: initialValue(value),
             onChanged: (value) => {
               indexOfJsonId = _bs.findIndex(anyCollectJsonString, jsonId),
@@ -54,9 +55,10 @@ SizedBox buildTextField(
               ),
             ),
           )
-          // EditableFields
+          
+          // Comments
         : TextField(
-          maxLines: 5,
+          maxLines: 3,
             onChanged: (value) => {
               indexOfJsonId = _bs.findIndex(anyCollectJsonString, jsonId),
               _onUpdate(indexOfJsonId, value)

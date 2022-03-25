@@ -29,14 +29,14 @@ final rBoxDecorationStyle = BoxDecoration(
   ],
 );
 final rBoxDecorationStyles = BoxDecoration(
-  color: Color.fromARGB(255, 237, 245, 251),
-  borderRadius: BorderRadius.circular(10),
+  color: Color.fromARGB(255, 255, 255, 255),
+  borderRadius: BorderRadius.circular(2),
   boxShadow: [
     BoxShadow(
-      color: Color.fromARGB(255, 0, 132, 255),
-      blurRadius: 6.0,
-      spreadRadius : 2.0,
-      offset: Offset(0, 1),
+       color: Color.fromARGB(126, 207, 206, 206),
+      blurRadius: 0.1,
+      spreadRadius : 1.0,
+      offset: Offset(0, 2),
     ),
   ],
 );

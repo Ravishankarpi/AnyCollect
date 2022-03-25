@@ -28,16 +28,16 @@ class _ChooseFormsState extends State<ChooseForms> {
   // ignore: missing_return
   AnyCollectForms onPressTile(int index) {
     _anyCollectForms = tempFormArr[index];
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => DynamiceForm(anyCollectForms: _anyCollectForms)));
+
+    // Navigator.of(context).push(MaterialPageRoute(
+    //     builder: (context) => DynamiceForm(anyCollectForms: _anyCollectForms)));
   }
   int _page = 0;
   PageController _c;
 
   @override
   void initState() {
-    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.bottom]);
-    _c =  new PageController(
+     _c =   PageController(
       initialPage: _page,
     );
     super.initState();
@@ -169,16 +169,16 @@ class _ChooseFormsState extends State<ChooseForms> {
     queryData = MediaQuery.of(context);
 
     return Scaffold(
-        // drawer: buildDrawer(true),
+        drawer: buildDrawer(true),
         backgroundColor: Color.fromRGBO(242,242,243, 5),
-        // // backgroundColor: const Color(0xFF2c3c84),
-        // appBar: AppBar(
-          // backgroundColor: const Color(0xFF2c3c84),
-        //   title: Text('Forms', style: GoogleFonts.openSans(textStyle: TextStyle(
-        //                                     color: Colors.white,
-        //                                 fontSize: 25,
-        //                                 fontWeight: FontWeight.bold,),),
-        // ),),
+        // backgroundColor: const Color(0xFF2c3c84),
+        appBar: AppBar(
+          backgroundColor: const Color(0xFF2c3c84),
+          title: Text('Forms', style: GoogleFonts.openSans(textStyle: TextStyle(
+                                            color: Colors.white,
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold,),),
+        ),),
         body: SingleChildScrollView(
           child: SafeArea(
             minimum : EdgeInsets.all(10),

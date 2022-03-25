@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_dev/model/formJson.dart';
 import 'package:flutter_dev/model/ids.dart';
 import 'package:flutter_dev/screens/dynamicForm.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:universal_html/js_util.dart';
 
 SizedBox buildDropDown(
@@ -85,7 +86,12 @@ List<Options> obtions = getObject(anyCollect, indexOfJsonId).options;
  
     obtions.asMap().forEach((key, value) {
     dropdownMenuItem.add(new DropdownMenuItem(
-      child: Text(value.text),
+      child: Text(value.text,
+      style: GoogleFonts.openSans(textStyle: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.normal,
+                                        color: Color(0xFF4c4c4c)),)
+      ),
       value: value.id,
     ));
   });

@@ -1,10 +1,12 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_dev/controls/dropdown.dart';
 import 'package:flutter_dev/controls/emptySize.dart';
 import 'package:flutter_dev/controls/image_picker.dart';
 import 'package:flutter_dev/controls/label.dart';
+import 'package:flutter_dev/controls/textarea.dart';
 import 'package:flutter_dev/controls/textfield.dart';
 import 'package:flutter_dev/controls/verticalSplit.dart';
 import 'package:flutter_dev/model/attachment.dart';
@@ -12,14 +14,16 @@ import 'package:flutter_dev/model/dropdown_model.dart';
 import 'package:flutter_dev/model/formJson.dart';
 import 'package:flutter_dev/model/ids.dart';
 import 'package:flutter_dev/provider/service.dart';
+import 'package:flutter_dev/screens/drawer.dart';
 import 'package:flutter_dev/utils/constants.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 class DynamiceForm extends StatefulWidget {
   AnyCollectForms anyCollectForms;
   // DynamiceForm(this._anyCollectForms);
-  
-   DynamiceForm({Key key, @required this.anyCollectForms}) : super(key: key);
+
+  DynamiceForm({Key key, @required this.anyCollectForms}) : super(key: key);
 
   @override
   // ignore: no_logic_in_create_state
@@ -29,7 +33,7 @@ class DynamiceForm extends StatefulWidget {
 class _DynamicState extends State<DynamiceForm> {
   AnyCollectForms _anyCollectForms;
   _DynamicState(_anyCollectForms);
-  
+
   AnyCollect anyCollectJsonString = AnyCollect();
   DropdownonChangeModel dropdownononChangeJS;
   List<DropdownMenuItem> dropdownMenuItem;
@@ -41,16 +45,22 @@ class _DynamicState extends State<DynamiceForm> {
   List<DropDownOptions> dropDownFieldsOptions = [];
   final BaseService _bs = BaseService();
 
+  var txt = TextEditingController();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     anyCollectJsonString =
         AnyCollect.fromJson(JsonStringToObjectConverter(formJsonString));
-      print(this._anyCollectForms);
+    print(this._anyCollectForms);
     print(anyCollectJsonString);
     dropdownononChangeJS = DropdownonChangeModel.fromJson(
         JsonStringToObjectConverter(dropdownFieldJson));
+  }
+
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -62,26 +72,42 @@ class _DynamicState extends State<DynamiceForm> {
     getRandomWidgetArray(anyCollectJsonString, context);
 
     return Scaffold(
+      drawer: buildDrawer(true),
+      backgroundColor: const Color.fromRGBO(242, 242, 243, 5),
+      // // backgroundColor: const Color(0xFF2c3c84),
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF2c3c84),
+        title: Text(
+          'Form Name',
+          style: GoogleFonts.openSans(
+            textStyle: const TextStyle(
+              color: Colors.white,
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
       body: Container(
-        color: Color.fromARGB(248, 239, 250, 255),
+        color: const Color.fromRGBO(242, 242, 243, 5),
         child: SingleChildScrollView(
           child: Center(
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              SizedBox(
-                height: 50,
-              ),
-              Container(
-                width: queryData.size.width - 30,
-                height: 40,
-                decoration: rBoxDecorationStyles,
-                child: buildText(queryData, FontWeight.bold, Colors.lightBlue,
-                    16, "Form Name",
-                    alignmentType: "sections"),
-                padding: EdgeInsets.only(left: 20.0, top: 10),
-              ),
-              SizedBox(
+              // SizedBox(
+              //   height: 50,
+              // ),
+              // Container(
+              //   width: queryData.size.width - 30,
+              //   height: 40,
+              //   decoration: rBoxDecorationStyles,
+              //   child: buildText(queryData, FontWeight.bold, Colors.lightBlue,
+              //       16, "Form Name",
+              //       alignmentType: "sections"),
+              //   padding: EdgeInsets.only(left: 20.0, top: 10),
+              // ),
+              const SizedBox(
                 height: 5,
               ),
               Container(
@@ -187,6 +213,13 @@ class _DynamicState extends State<DynamiceForm> {
           .groupFields[indexOfJsonId.fieldIds]
           .value = value;
     });
+    // return   anyCollectJsonString
+    //       .anyCollectForms[0]
+    //       .formData
+    //       .sections[indexOfJsonId.sectionIds]
+    //       .groups[indexOfJsonId.groupsIds]
+    //       .groupFields[indexOfJsonId.fieldIds]
+    //       .value = value;
   }
 
   initialValue(String editedText) {
@@ -210,6 +243,7 @@ class _DynamicState extends State<DynamiceForm> {
     List<GroupFields> groupFields;
     List<Fields> sectionFields;
     List<Groups> sectionGroups;
+    String columnID = "";
     returnSection = [];
     returnWidgets = [];
 
@@ -217,14 +251,37 @@ class _DynamicState extends State<DynamiceForm> {
     anyCollectJsonString.anyCollectForms.asMap().forEach((key, formRes) {
       formId = formRes.formId;
       formLabel = formRes.label;
+      dynamic  acitionColumn = [];
+      num finalScore = 0;
+      var copyFromID ;
       // number of sections
       formRes.formData.sections.asMap().forEach((key, sectionsRes) {
         //section Name and Id
         masterSections = sectionsRes;
         //section fields
         sectionFields = masterSections.fields;
+        //Doubt
+     
         // numnber of groups and groups name
         sectionGroups = masterSections.groups;
+        //Doubt
+        
+           if(sectionFields[0].actionDetails.calculationType.toLowerCase() == "average"){
+          columnID =  sectionFields[0].actionDetails.column;
+         sectionGroups.asMap().forEach((key, value) {
+          acitionColumn = value.groupFields.where((element) => element.id == columnID).toList();
+              copyFromID = acitionColumn[0].actionDetails.copyFromFieldId;
+               acitionColumn = value.groupFields.where((element) => element.id == copyFromID).toList();
+              finalScore += acitionColumn[0].defaultValue;
+
+         });
+         if(finalScore != 0){
+           finalScore = finalScore/sectionGroups.length;
+         }
+        //  acitionColumn.asMap().forEach((i, e) => {
+        //    finalScore += e.defaultValue !=null ? int.parse(e.defaultValue) : 0});
+        }
+
         returnSection.add(buildSizedBox(20, 0));
         returnSection.add(Container(
           decoration: rBoxDecorationStyles,
@@ -236,9 +293,19 @@ class _DynamicState extends State<DynamiceForm> {
               ),
               getSectionData(masterSections, queryData),
               getGroupFields(masterSections, sectionGroups, queryData),
+              // const SizedBox(
+              //   height: 3,
+              // ),
+              buildText(queryData, FontWeight.bold, const Color.fromARGB(255, 132, 131, 133), 12,  "${sectionFields[0].label}  $finalScore",alignmentType: "sections"),
+              const SizedBox(
+                height: 15,
+              ),
+              
             ],
           ),
         ));
+      
+      finalScore = 0;
       });
       // return returnSection;
     });
@@ -252,13 +319,12 @@ class _DynamicState extends State<DynamiceForm> {
     GroupFields selectedGroupFields;
     Options option;
     returnWidgets = [];
+    List<Widget> returnGroups = [];
     sectionGroups.asMap().forEach((groupKey, Groups groupRes) {
-      returnWidgets.add(const SizedBox(
-        height: 20,
-      ));
+      returnWidgets.add(buildSizedBox(0,0));
       returnWidgets.add(
-        buildText(queryData, FontWeight.normal, Colors.lightBlue, 12,
-            groupRes.groupName.toUpperCase(),
+        buildText(queryData, FontWeight.normal, Colors.lightBlue, 14,
+            groupRes.groupName,
             alignmentType: "groups"),
       );
       groupRes.groupFields.asMap().forEach((key, groupsFieldRes) {
@@ -272,7 +338,8 @@ class _DynamicState extends State<DynamiceForm> {
               groupId: groupRes.groupId,
               fieldId: groupsFieldRes.id,
               value: groupsFieldRes.options[0].id);
-          verticalSplitSection.add(buildDropDown(
+
+          returnWidgets.add(buildDropDown(
               dropDownFieldsOptions,
               Icons.email,
               "Email",
@@ -281,9 +348,10 @@ class _DynamicState extends State<DynamiceForm> {
               dropdownMenuItem,
               dropdownononChangeJS,
               anyCollectJsonString,
-              true,
+              false,
               0,
               jsonId));
+        
         } else if (key == 1) {
           if (groupsFieldRes.type.toLowerCase() == "calculated") {
             if (groupsFieldRes.actionDetails.actionType.toLowerCase() ==
@@ -298,74 +366,121 @@ class _DynamicState extends State<DynamiceForm> {
                   (element) => element.id == selectedGroupFields.defaultValue);
               option = selectedGroupFields.options[index];
             }
-            verticalSplitSection.add(buildTextField(
-                _bs,
-                anyCollectJsonString,
-                Icons.rotate_90_degrees_ccw,
-                queryData,
-                Colors.lightBlue,
-                true,
-                jsonId,
-                _onUpdate,
-                true,
-                value: option.value.toString(),
-                name: groupsFieldRes.label,
-                isReadOnly: true));
+            // verticalSplitSection.add(
+
+            //    buildTextArea(
+            //      _bs,
+            //      anyCollectJsonString,
+            //     Icons.rotate_90_degrees_ccw,
+            //      queryData,
+            //     Colors.lightBlue,
+            //     true,
+            //     jsonId,
+            //    _onUpdate,
+            //     true,
+            //     context,
+            // value: option.value.toString(),
+            // name: groupsFieldRes.label,
+            // isReadOnly: true),
+
+            // // buildTextField(
+            // //     _bs,
+            // //     anyCollectJsonString,
+            // //     Icons.rotate_90_degrees_ccw,
+            // //     queryData,
+            // //     Colors.lightBlue,
+            // //     true,
+            // //     jsonId,
+            // //     _onUpdate,
+            // //     true,
+            // //     value: option.value.toString(),
+            // //     name: groupsFieldRes.label,
+            // //     isReadOnly: true)
+            // );
           }
           //verticalSplitSection.add(buildTextField(Icons.score, queryData,Colors.lightBlue, true, name:groupsFieldRes.label));
         }
-        if (verticalSplitSection.length == 2) {
-          returnWidgets.add(const SizedBox(
-            height: 20,
-          ));
-          returnWidgets.add(buildVerticalSplit(
-              queryData, verticalSplitSection[0], verticalSplitSection[1]));
-          verticalSplitSection = [];
-        } else if (verticalSplitSection.isEmpty) {
-          returnWidgets.add(const SizedBox(
-            height: 20,
-          ));
-          if (groupsFieldRes.type == "textArea") {
-            returnWidgets.add(buildTextField(
+        // if (verticalSplitSection.length == 1) {
+        // returnWidgets.add(const SizedBox(
+        //   height: 20,
+        // ));
+        if (groupsFieldRes.type == "textArea" && key == 2) {
+          returnWidgets.add(buildTextArea(
+              _bs,
+              anyCollectJsonString,
+              Icons.comment,
+              queryData,
+              Colors.lightBlue,
+              false,
+              jsonId,
+              _onUpdate,
+              true,
+              context,
+              txt,
+              values: groupsFieldRes.value,
+              name: (groupsFieldRes.value != null && groupsFieldRes.value != "")
+                  ? groupsFieldRes.value
+                  : groupsFieldRes.label));
+        }
+        // }
+        // else if (verticalSplitSection.length == 2) {
+        returnWidgets.add(buildSizedBox(2,0));
+        // returnWidgets.add(buildVerticalSplit(
+        //     queryData, verticalSplitSection[0], verticalSplitSection[1]));
+
+        verticalSplitSection = [];
+
+        if (groupsFieldRes.id == "attachmentId") {
+          //temp
+          groupsFieldRes.type = "attachment";
+          int val = (groupKey) % 2;
+          ImageSource img = val == 0 ? ImageSource.camera : ImageSource.gallery;
+          returnWidgets.add(
+            buildIconButton(
                 _bs,
                 anyCollectJsonString,
-                Icons.comment,
+                Icons.add_circle_rounded,
+                "Add Files",
                 queryData,
-                Colors.lightBlue,
-                false,
-                jsonId,
-                _onUpdate,
-                false,
-                value: groupsFieldRes.value,
-                name: groupsFieldRes.label));
-          }
-          if (groupsFieldRes.id == "attachmentId") {
-            //temp
-            groupsFieldRes.type = "attachment";
-            int val = (groupKey) % 2;
-            ImageSource img =
-                val == 0 ? ImageSource.camera : ImageSource.gallery;
-            returnWidgets.add(
-              buildIconButton(
-                  _bs,
-                  anyCollectJsonString,
-                  Icons.attachment_rounded,
-                  "Upload Files",
-                  queryData,
-                  onChangeUploadButton,
-                  getAttachments,
-                  groupsFieldRes.label,
-                  // ImageSource.gallery,
-                  img,
-                  jsonId),
-            );
-          }
+                onChangeUploadButton,
+                getAttachments,
+                groupsFieldRes.label,
+                // ImageSource.gallery,
+                img,
+                jsonId),
+          );
+          returnWidgets.add(buildSizedBox(1,0));
         }
+        
+        // }
       });
-    });
+   
+
+      returnGroups.add(Container(
+        width: queryData.size.width - 20,
+        // decoration: BoxDecoration(
+        //   border: Border.all(width: 1,color: const Color.fromARGB(99, 138, 138, 138))
+        // ),
+        child: Column(
+          children: returnWidgets,
+        ),
+      ));
+      returnGroups.add(const SizedBox(
+        height: 5,
+      ));
+
+      returnWidgets = [];
+      
+    }
+    
+    
+     
+    
+    );
     return Container(
+      padding: const EdgeInsets.all(0),
       child: Column(
-        children: returnWidgets,
+        children: returnGroups,
       ),
     );
   }
@@ -400,10 +515,15 @@ class _DynamicState extends State<DynamiceForm> {
   //   return renderWidget;
   //   }
 
-  SizedBox getSectionData(masterSections, MediaQueryData queryData) {
-    return buildText(queryData, FontWeight.bold, Colors.lightBlue, 12,
-        masterSections.sectionName.toString().toUpperCase(),
-        alignmentType: "sections");
+  Container getSectionData(masterSections, MediaQueryData queryData) {
+    return buildText(
+      queryData,
+      FontWeight.bold,
+      Colors.lightBlue,
+      20,
+      masterSections.sectionName.toString().toUpperCase(),
+      alignmentType: "sections",
+    );
   }
 
   List<Widget> getAttachments(MediaQueryData queryData, String attachments) {
@@ -414,7 +534,12 @@ class _DynamicState extends State<DynamiceForm> {
       for (var res in attachmentsFiles?.attachments) {
         attachment.add(Text(
           res.fileName,
-          style: const TextStyle(fontSize: 12),
+
+style: GoogleFonts.openSans(textStyle: const TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        color: const Color.fromARGB(255, 132, 131, 133)),),
+
         ));
 
         if (queryData.orientation.index == 0) {

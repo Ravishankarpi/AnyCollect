@@ -6,6 +6,7 @@ import 'package:flutter_dev/model/formJson.dart';
 import 'package:flutter_dev/model/ids.dart';
 import 'package:flutter_dev/provider/service.dart';
 import 'package:flutter_dev/utils/constants.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -49,7 +50,7 @@ SizedBox buildIconButton(
   if (queryData.orientation.index == 0)
     AttchmentWidth = (queryData.size.width - 50) / 2;
   else
-    AttchmentWidth = (queryData.size.width + 250) / 2;
+    AttchmentWidth = (queryData.size.width + 250) / 1.79;
 
 
 
@@ -64,53 +65,58 @@ SizedBox buildIconButton(
                   indexOfJsonId, isMulti, onChangeUploadButton, imageSource);
             },
             style: ButtonStyle(alignment: Alignment.topLeft),
-            child: Column(
+            child: Row(
               // Replace with a Row for horizontal icon + text
               children: <Widget>[
                 Icon(
                   icon,
-                  size: 50,
-                  color: Color.fromARGB(255, 132, 131, 133),
+                  size: 35,
+                  color: Color.fromARGB(71, 76, 76, 76),
                 ),
-                Text(iconName,
-                    style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(255, 132, 131, 133)))
+                buildSizedBox(0.0, 4),
+                SizedBox(
+                  width: 60,
+                  child: Text(iconName,
+
+                      style: GoogleFonts.openSans(textStyle: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.normal,
+                                        color: Color(0xFF4c4c4c)),)
+                          
+                          ),
+                )
               ],
             ),
           ),
-          buildSizedBox(0.0, 30),
+          buildSizedBox(0.0, 20),
           SizedBox(
             width: AttchmentWidth,
             height: 60,
-            child: attachmentList.isNotEmpty ? Center(
-              child: Container(
-                // padding:
-                //     EdgeInsets.only(left: 15, top: 10, right: 15, bottom: 10),
-                // decoration: attachmentBoxDecorationStyles,
-                child: SingleChildScrollView(
-                  scrollDirection: queryData.orientation.index == 0
-                      ? Axis.vertical
-                      : Axis.horizontal,
-                  child: queryData.orientation.index == 0
-                      ? Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: getAttachments(queryData, attachmentJsonString),
-                        )
-                      : Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: getAttachments(queryData, attachmentJsonString),
-                        ),
-                ),
-              ),
-            ) :Container(
-              alignment: Alignment.centerLeft,
-                padding:
-                    const EdgeInsets.only(left: 15, top: 10, right: 15, bottom: 10),
-                decoration: attachmentBoxDecorationStyles, 
-                child: const Text("No Attachments"),
+            child: attachmentList.isNotEmpty ?SingleChildScrollView(
+                scrollDirection: 
+                // queryData.orientation.index == 0
+                    // ? 
+                    Axis.vertical,
+                    // : Axis.horizontal,
+                child: 
+                // queryData.orientation.index == 0
+                    // ?
+                     Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: getAttachments(queryData, attachmentJsonString),
+                      )
+                    // : Row(
+                    //     mainAxisAlignment: MainAxisAlignment.start,
+                    //     crossAxisAlignment: CrossAxisAlignment.start,
+                    //     children: getAttachments(queryData, attachmentJsonString),
+                    //   ),
+              ):Container(
+              // alignment: Alignment.centerLeft,
+              //   padding:
+              //       const EdgeInsets.only(left: 15, top: 10, right: 15, bottom: 10),
+              //   decoration: attachmentBoxDecorationStyles, 
+              //   child: const Text("No Attachmentssssssssss"),
             ),
           )
         ],
