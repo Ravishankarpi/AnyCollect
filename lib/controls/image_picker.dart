@@ -71,7 +71,7 @@ SizedBox buildIconButton(
                 Icon(
                   icon,
                   size: 35,
-                  color: Color.fromARGB(71, 76, 76, 76),
+                  color: Color.fromARGB(137, 44, 60, 132),
                 ),
                 buildSizedBox(0.0, 4),
                 SizedBox(
@@ -81,7 +81,7 @@ SizedBox buildIconButton(
                       style: GoogleFonts.openSans(textStyle: TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.normal,
-                                        color: Color(0xFF4c4c4c)),)
+                                        color: Color.fromARGB(167, 44, 60, 132)),)
                           
                           ),
                 )

@@ -90,7 +90,7 @@ List<Options> obtions = getObject(anyCollect, indexOfJsonId).options;
       style: GoogleFonts.openSans(textStyle: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.normal,
-                                        color: Color(0xFF4c4c4c)),)
+                                        color: Color.fromARGB(255, 0, 0, 0)),)
       ),
       value: value.id,
     ));
