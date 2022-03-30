@@ -1,35 +1,48 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dev/controls/FadeRouteBuilder.dart';
 import 'package:flutter_dev/controls/bottom_navigator.dart';
 import 'package:flutter_dev/model/formJson.dart';
 import "package:collection/collection.dart";
+import 'package:flutter_dev/model/request_response.dart';
+import 'package:flutter_dev/provider/service.dart';
 import 'package:flutter_dev/screens/drawer.dart';
+import 'package:flutter_dev/screens/dynamicForm.dart';
 import 'package:flutter_dev/utils/constants.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:rect_getter/rect_getter.dart';
 
 class FormDetials extends StatefulWidget {
-  final AnyCollectForms anyCollectForms;
+  RequestResponse request;
+  int index;
 
-  const FormDetials({this.anyCollectForms}) : super();
+  // ignore: prefer_const_constructors_in_immutables
+  FormDetials(this.request, this.index, {Key key}) : super(key: key);
 
   @override
-  _FormDetialsState createState() => _FormDetialsState();
+  // ignore: no_logic_in_create_state
+  _FormDetialsState createState() => _FormDetialsState(request);
 }
 
 class _FormDetialsState extends State<FormDetials> {
+     GlobalKey rectGetterKey = RectGetter.createGlobalKey(); //<--Create a key
+  Rect rect; 
+    RequestResponse request;
+      final BaseService _bs = BaseService();
   List<Sections> section = [];
-  List<AnyCollectForms> tempFormArr = [
-    AnyCollectForms(label: "6's Score Card", formId: "6sSoreCard"),
-    AnyCollectForms(label: "AnyCollect", formId: "AnyCollect"),
-    AnyCollectForms(label: "AnyCollectForm 3", formId: "AnyCollectForm3"),
-    AnyCollectForms(label: "6's Score Card", formId: "6sSoreCard"),
-  ];
+
+  RequestResponse tempFormArr = RequestResponse();
   List<dynamic> fromGroups = [];
+
+  _FormDetialsState(RequestResponse request);
+
+  // _FormDetialsState(RequestResponse request);
 
   @override
   void initState() {
     super.initState();
+    getSelectedForms();
     // final fromGroups = generateGroup(tempFormArr);
   }
 
@@ -41,6 +54,26 @@ class _FormDetialsState extends State<FormDetials> {
     return groups;
   }
 
+  getSelectedForms() async{
+    //dummy
+    // request.userId = 1;
+    //below string comes from api call (dummpy call)
+    await _bs.getSelectedFormsCollectionByFormAndUserID(widget.request).then((res) => {
+        setState(() {
+          tempFormArr = res;
+        }),
+        });
+
+  }
+  onPressTile(int index, FormCollection formCollection ) async{
+        var test;
+
+     await _bs. getSelectedFormByDataCollectionId(formCollection).then((selectedDataForm) => {
+             setState(() => rect = RectGetter.getRectFromKey(rectGetterKey)),
+     Navigator.of(context).push(FadeRouteBuilder(page: DynamiceForm(anyCollectForms: selectedDataForm,))),
+     });
+  }
+
   List<Widget> buildFormDeatils(MediaQueryData queryData) {
     DateTime now = new DateTime.now();
 
@@ -48,16 +81,19 @@ class _FormDetialsState extends State<FormDetials> {
     var currentDate = "${now.day} Mar ${now.year}";
     List<Widget> data = [];
     dynamic groupCollection = [];
-    if (tempFormArr.isNotEmpty) {
-      groupCollection =
-          tempFormArr.where((res) => res.formId == "6sSoreCard").toList();
-      groupCollection.asMap().forEach((key, value) {
+    if (tempFormArr != null && tempFormArr.formCollection != null &&  tempFormArr.formCollection.isNotEmpty) {
+    //   groupCollection =
+    //       tempFormArr.formCollection.where((res) => res.formId == "6sSoreCard").toList();
+
+      tempFormArr.formCollection.asMap().forEach((key, value) {
         data.add(const SizedBox(
           height: 10,
         ));
         data.add(
           GestureDetector(
-            onTap: () => {},
+            onTap: () => {
+              onPressTile(key, value),
+            },
             child: SizedBox(
               height: 80,
               // width: queryData.size.width / 1.1,
@@ -85,8 +121,9 @@ class _FormDetialsState extends State<FormDetials> {
                                 alignment: Alignment.centerLeft,
                                 padding: EdgeInsets.only(left: 14),
                                 height: 35,
-                                width: 100,
-                                child: Text("Form #${key + 1}",
+                                width: queryData.orientation.index == 0 ?  queryData.size.width /1.5 : queryData.size.width /1.2 ,
+                                child: Text("${value.label + " #"}${key + 1}",
+                                overflow: TextOverflow.ellipsis,
                                     // "${key+1}",
                                     // "${value.formId}",
                                     style: GoogleFonts.openSans(
@@ -97,18 +134,18 @@ class _FormDetialsState extends State<FormDetials> {
                                     )),
                               ),
                               const SizedBox(
-                                width: 150,
+                                width: 0,
                               ),
                               Container(
                                 height: 25,
-                                width: key == 0 ? 80 : 80,
+                                width: 80,
                                 alignment: Alignment.centerRight,
                                 child: Container(
                                   alignment: Alignment.center,
                                   height: 25,
-                                  width: key == 0 ? 80 : 65,
+                                  width: value.status.toLowerCase() == "submitted"  ? 80 : 65,
                                   child: Text(
-                                    key == 0 ? "Submitted" : "Draft",
+                                    value.status,
                                     style: TextStyle(
                                         fontFamily: "OpenSans",
                                         fontSize: 12,
@@ -116,7 +153,7 @@ class _FormDetialsState extends State<FormDetials> {
                                         color: Color.fromARGB(255, 255, 255, 255)),
                                   ),
                                   decoration: BoxDecoration(
-                                     color: key == 0 ?  Color(0xFF81A489) : Color(0xFFF2c672),
+                                     color: value.status.toLowerCase() == "submitted" ?  Color(0xFF81A489) : value.status.toLowerCase() == "draft" ?Color(0xFFF2c672) : Color.fromARGB(255, 206, 206, 206) ,
                                     borderRadius: BorderRadius.circular(15),
                                     // border: Border.all(
                                     //     width: 1.0, color: Color(0xFF2c3c84)),
@@ -156,9 +193,9 @@ class _FormDetialsState extends State<FormDetials> {
                                 alignment: Alignment.bottomCenter,
                                 // height: 25,
                                 //         width: 80,
-                                child: Text(currentDate,
+                                child: Text(value.modifiedDate,  //date format
                                     style: GoogleFonts.openSans(
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.w600,
                                           color:
@@ -192,7 +229,7 @@ class _FormDetialsState extends State<FormDetials> {
     MediaQueryData queryData;
     queryData = MediaQuery.of(context);
     return Scaffold(
-        drawer: buildDrawer(true),
+        // drawer: buildDrawer(true),
       backgroundColor: Color.fromRGBO(242, 242, 243, 5),
       appBar: AppBar(
         backgroundColor: const Color(0xFF2c3c84),

@@ -1,11 +1,15 @@
 import 'dart:convert';
 import 'dart:ffi';
 import 'dart:io';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dev/controls/FadeRouteBuilder.dart';
+import 'package:flutter_dev/controls/cupertina.dart';
 import 'package:flutter_dev/controls/dropdown.dart';
 import 'package:flutter_dev/controls/emptySize.dart';
 import 'package:flutter_dev/controls/image_picker.dart';
 import 'package:flutter_dev/controls/label.dart';
+import 'package:flutter_dev/controls/outlinedButton.dart';
 import 'package:flutter_dev/controls/textarea.dart';
 import 'package:flutter_dev/controls/textfield.dart';
 import 'package:flutter_dev/controls/verticalSplit.dart';
@@ -19,8 +23,9 @@ import 'package:flutter_dev/utils/constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
+// ignore: must_be_immutable
 class DynamiceForm extends StatefulWidget {
-  AnyCollectForms anyCollectForms;
+  AnyCollect anyCollectForms;
   // DynamiceForm(this._anyCollectForms);
 
   DynamiceForm({Key key, @required this.anyCollectForms}) : super(key: key);
@@ -43,6 +48,12 @@ class _DynamicState extends State<DynamiceForm> {
   int i;
   List<Container> testt;
   List<DropDownOptions> dropDownFieldsOptions = [];
+  dynamic buttonFields = [
+    {"label": "Submit", "backgroundColor": Color.fromARGB(221, 44, 60, 132), "textColor" : Color.fromARGB(244, 255, 255, 255)},
+    {"label": "Draft", "backgroundColor": Color.fromARGB(221, 44, 60, 132), "textColor" : Color.fromARGB(244, 255, 255, 255)},
+    {"label": "Cancel", "backgroundColor": Color.fromARGB(75, 76, 76, 76), "textColor" : Color.fromARGB(244, 255, 255, 255)},
+  ];
+
   final BaseService _bs = BaseService();
 
   var txt = TextEditingController();
@@ -51,9 +62,17 @@ class _DynamicState extends State<DynamiceForm> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    anyCollectJsonString =
+    if(widget.anyCollectForms != null){
+ anyCollectJsonString = widget.anyCollectForms;
+//  anyCollectJsonString.anyCollectForms[0].formData.sections[0].groups[0].groupFields[2].value = "test";
+    }
+    else
+    {
+       anyCollectJsonString =
         AnyCollect.fromJson(JsonStringToObjectConverter(formJsonString));
-    print(this._anyCollectForms);
+    }
+   
+    print(_anyCollectForms);
     print(anyCollectJsonString);
     dropdownononChangeJS = DropdownonChangeModel.fromJson(
         JsonStringToObjectConverter(dropdownFieldJson));
@@ -72,13 +91,14 @@ class _DynamicState extends State<DynamiceForm> {
     getRandomWidgetArray(anyCollectJsonString, context);
 
     return Scaffold(
-      drawer: buildDrawer(true),
+      // resizeToAvoidBottomInset : true,
+      // drawer: buildDrawer(true),
       backgroundColor: const Color.fromRGBO(242, 242, 243, 5),
       // // backgroundColor: const Color(0xFF2c3c84),
       appBar: AppBar(
         backgroundColor: const Color(0xFF2c3c84),
         title: Text(
-          'Form Name',
+          "",
           style: GoogleFonts.openSans(
             textStyle: const TextStyle(
               color: Colors.white,
@@ -136,6 +156,14 @@ class _DynamicState extends State<DynamiceForm> {
   onChangeDropItem(IndexOfJsonId indexOfJsonId, value) {
     // GroupFields groupFields =
     //     _bs.getObject(anyCollectJsonString, indexOfJsonId);
+
+    
+    //  Navigator.of(context).push(FadeRouteBuilder(page: MyStatefulWidget()));
+// const MyStatefulWidget();
+
+    
+
+    
     setState(() {
       anyCollectJsonString
           .anyCollectForms[0]
@@ -143,7 +171,7 @@ class _DynamicState extends State<DynamiceForm> {
           .sections[indexOfJsonId.sectionIds]
           .groups[indexOfJsonId.groupsIds]
           .groupFields[indexOfJsonId.fieldIds]
-          .defaultValue = value;
+          .defaultValue = value.id;
     });
   }
 
@@ -201,6 +229,9 @@ class _DynamicState extends State<DynamiceForm> {
           })
         : "";
   }
+  outlinedButtonClick(){
+
+  }
 
   // update textFields
   _onUpdate(IndexOfJsonId indexOfJsonId, String value) {
@@ -251,9 +282,9 @@ class _DynamicState extends State<DynamiceForm> {
     anyCollectJsonString.anyCollectForms.asMap().forEach((key, formRes) {
       formId = formRes.formId;
       formLabel = formRes.label;
-      dynamic  acitionColumn = [];
+      dynamic acitionColumn = [];
       num finalScore = 0;
-      var copyFromID ;
+      var copyFromID;
       // number of sections
       formRes.formData.sections.asMap().forEach((key, sectionsRes) {
         //section Name and Id
@@ -261,25 +292,33 @@ class _DynamicState extends State<DynamiceForm> {
         //section fields
         sectionFields = masterSections.fields;
         //Doubt
-     
+
         // numnber of groups and groups name
         sectionGroups = masterSections.groups;
         //Doubt
-        
-           if(sectionFields[0].actionDetails.calculationType.toLowerCase() == "average"){
-          columnID =  sectionFields[0].actionDetails.column;
-         sectionGroups.asMap().forEach((key, value) {
-          acitionColumn = value.groupFields.where((element) => element.id == columnID).toList();
-              copyFromID = acitionColumn[0].actionDetails.copyFromFieldId;
-               acitionColumn = value.groupFields.where((element) => element.id == copyFromID).toList();
-              finalScore += acitionColumn[0].defaultValue;
 
-         });
-         if(finalScore != 0){
-           finalScore = finalScore/sectionGroups.length;
-         }
-        //  acitionColumn.asMap().forEach((i, e) => {
-        //    finalScore += e.defaultValue !=null ? int.parse(e.defaultValue) : 0});
+        if (sectionFields[0].actionDetails.calculationType.toLowerCase() ==
+            "average") {
+          columnID = sectionFields[0].actionDetails.column;
+          sectionGroups.asMap().forEach((key, value) {
+            acitionColumn = value.groupFields
+                .where((element) => element.id == columnID)
+                .toList();
+            copyFromID = acitionColumn[0].actionDetails.copyFromFieldId;
+            acitionColumn = value.groupFields
+                .where((element) => element.id == copyFromID)
+                .toList();
+            if (acitionColumn[0].defaultValue - 1 > -1) {
+              finalScore += acitionColumn[0]
+                  .options[acitionColumn[0].defaultValue - 1]
+                  .value;
+            }
+          });
+          if (finalScore != 0) {
+            finalScore = finalScore / sectionGroups.length;
+          }
+          //  acitionColumn.asMap().forEach((i, e) => {
+          //    finalScore += e.defaultValue !=null ? int.parse(e.defaultValue) : 0});
         }
 
         returnSection.add(buildSizedBox(20, 0));
@@ -296,21 +335,68 @@ class _DynamicState extends State<DynamiceForm> {
               // const SizedBox(
               //   height: 3,
               // ),
-              buildText(queryData, FontWeight.bold, const Color.fromARGB(255, 132, 131, 133), 12,  "${sectionFields[0].label}  $finalScore",alignmentType: "sections"),
+              buildText(
+                  queryData,
+                  FontWeight.bold,
+                  const Color.fromARGB(255, 132, 131, 133),
+                  12,
+                  "${sectionFields[0].label}  $finalScore",
+                  alignmentType: "sections"),
               const SizedBox(
                 height: 15,
               ),
-              
             ],
           ),
         ));
-      
-      finalScore = 0;
+        finalScore = 0;
       });
+      returnSection.add(buildSizedBox(10, 0));
+      returnSection.add(Container(
+        alignment: Alignment.centerRight,
+        child: Row(
+          textDirection: TextDirection.ltr,
+          children: buildButton(),
+          
+          //  <Widget>[
+          //   buildOutlinButton(
+          //       Color.fromARGB(221, 44, 60, 132),
+          //       Color.fromARGB(255, 255, 255, 255),
+          //       "Submit",
+          //       outlinedButtonClick),
+          //   buildSizedBox(0, 5),
+          //   buildOutlinButton(
+          //       Color.fromARGB(221, 44, 60, 132),
+          //       Color.fromARGB(255, 255, 255, 255),
+          //       "Draft",
+          //       outlinedButtonClick),
+          //   buildSizedBox(0, 5),
+          //   buildOutlinButton(
+          //       Color.fromARGB(75, 76, 76, 76),
+          //       Color.fromARGB(255, 255, 255, 255),
+          //       "Cancel",
+          //       outlinedButtonClick),
+          //   buildSizedBox(0, 5),
+          // ],
+
+
+        ),
+      ));
+
       // return returnSection;
     });
     // returnAllCategoryWidgets.add({"categoryId" : "index", "categoryWidgets" : returnWidgets});
     // return returnAllCategoryWidgets;
+  }
+
+  List<Widget> buildButton(){
+     List<Widget> textButton = [] ;
+    buttonFields.forEach((e)=>{
+textButton.add(buildOutlinButton(e["backgroundColor"], e["textColor"], e["label"], outlinedButtonClick)),    
+textButton.add(buildSizedBox(0, 5))
+    });
+
+    return textButton;
+
   }
 
   Container getGroupFields(Sections masterSections, List<Groups> sectionGroups,
@@ -321,13 +407,15 @@ class _DynamicState extends State<DynamiceForm> {
     returnWidgets = [];
     List<Widget> returnGroups = [];
     sectionGroups.asMap().forEach((groupKey, Groups groupRes) {
-      returnWidgets.add(buildSizedBox(0,0));
+      returnWidgets.add(buildSizedBox(0, 0));
       returnWidgets.add(
         buildText(queryData, FontWeight.normal, Colors.lightBlue, 14,
             groupRes.groupName,
             alignmentType: "groups"),
       );
       groupRes.groupFields.asMap().forEach((key, groupsFieldRes) {
+        returnWidgets.add(buildSizedBox(3, 0));
+
         jsonId = JsonId(
             sectionId: masterSections.sectionId,
             groupId: groupRes.groupId,
@@ -340,6 +428,7 @@ class _DynamicState extends State<DynamiceForm> {
               value: groupsFieldRes.options[0].id);
 
           returnWidgets.add(buildDropDown(
+            context,
               dropDownFieldsOptions,
               Icons.email,
               "Email",
@@ -351,7 +440,6 @@ class _DynamicState extends State<DynamiceForm> {
               false,
               0,
               jsonId));
-        
         } else if (key == 1) {
           if (groupsFieldRes.type.toLowerCase() == "calculated") {
             if (groupsFieldRes.actionDetails.actionType.toLowerCase() ==
@@ -367,6 +455,9 @@ class _DynamicState extends State<DynamiceForm> {
               option = selectedGroupFields.options[index];
             }
             // verticalSplitSection.add(
+
+        // returnWidgets.add(buildSizedBox(2, 0));
+
 
             //    buildTextArea(
             //      _bs,
@@ -424,7 +515,6 @@ class _DynamicState extends State<DynamiceForm> {
         }
         // }
         // else if (verticalSplitSection.length == 2) {
-        returnWidgets.add(buildSizedBox(2,0));
         // returnWidgets.add(buildVerticalSplit(
         //     queryData, verticalSplitSection[0], verticalSplitSection[1]));
 
@@ -449,12 +539,11 @@ class _DynamicState extends State<DynamiceForm> {
                 img,
                 jsonId),
           );
-          returnWidgets.add(buildSizedBox(1,0));
+          returnWidgets.add(buildSizedBox(1, 0));
         }
-        
+
         // }
       });
-   
 
       returnGroups.add(Container(
         width: queryData.size.width - 20,
@@ -470,13 +559,7 @@ class _DynamicState extends State<DynamiceForm> {
       ));
 
       returnWidgets = [];
-      
-    }
-    
-    
-     
-    
-    );
+    });
     return Container(
       padding: const EdgeInsets.all(0),
       child: Column(
@@ -534,12 +617,12 @@ class _DynamicState extends State<DynamiceForm> {
       for (var res in attachmentsFiles?.attachments) {
         attachment.add(Text(
           res.fileName,
-
-style: GoogleFonts.openSans(textStyle: const TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                        color: const Color.fromARGB(255, 132, 131, 133)),),
-
+          style: GoogleFonts.openSans(
+            textStyle: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: const Color.fromARGB(255, 132, 131, 133)),
+          ),
         ));
 
         if (queryData.orientation.index == 0) {

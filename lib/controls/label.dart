@@ -16,15 +16,17 @@ Container buildText(MediaQueryData queryData, FontWeight fntWeight,
   else if (alignmentType.toLowerCase() == "groups")
     dropDownWidth = queryData.size.width - 100;
 
+
+
   return Container(
-    height: 40,
+    height: queryData.orientation.index == 0 ? txtName.length >= 55 ? 60 : 40 : 40,
     padding: alignmentType.toLowerCase() != "sections" &&
             alignmentType.toLowerCase() != "center"
         ? EdgeInsets.only(top: 10, left: 5)
         : EdgeInsets.zero,
     color: alignmentType.toLowerCase() != "sections" &&
             alignmentType.toLowerCase() != "center"
-        ? Color.fromARGB(167, 44, 60, 132)
+        ? Color.fromARGB(221, 44, 60, 132)
         : Colors.transparent,
     child: SizedBox(
       width: alignmentType.toLowerCase() != "sections" &&
@@ -48,14 +50,15 @@ Container buildText(MediaQueryData queryData, FontWeight fntWeight,
                         color: Color(0xFF4c4c4c)),
                   ),
                 )
-              : Text(txtName,
+              : alignmentType.toLowerCase() == "groups" ? Text(txtName,
                   style: GoogleFonts.openSans(
                     textStyle: TextStyle(
                       fontSize: fntSize,
                       fontWeight: FontWeight.bold,
                       color: Color.fromARGB(255, 255, 255, 255),
                     ),
-                  )),
+                  ))
+                  : "",
     ),
   );
 }

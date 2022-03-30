@@ -41,7 +41,8 @@ dependencies:
   share_plus: "3.0.5"
   image_picker: "^0.8.4"
   file_picker: "^4.0.2"
-
+  rect_getter: "0.0.1"
+  page_transition: ^1.1.4
 
   # sensor plud
   sensors_plus: "1.2.2"

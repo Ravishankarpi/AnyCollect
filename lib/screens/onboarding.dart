@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dev/screens/homepage.dart';
+import 'package:flutter_dev/screens/local_storage_test.dart';
 import 'package:flutter_dev/screens/login_screen.dart';
 import 'package:flutter_dev/utils/styles.dart';
 
@@ -228,7 +230,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               child: GestureDetector(
                 onTap: () => {
                   print(Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => LoginScreen())))
+                      MaterialPageRoute(builder: (context) => HomePages())))
                 },
                 child: const Center(
                   child: Padding(
